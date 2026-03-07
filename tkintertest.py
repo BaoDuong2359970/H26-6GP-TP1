@@ -490,13 +490,22 @@ class Application:
         )
         self.canvas_porte.pack(pady=10)
 
-        self.label_ouverture = tk.Label(
-            self.right_frame,
-            text="Ouverture : 0%",
+        ouverture_frame = tk.Frame(self.right_frame, bg="white")
+        ouverture_frame.pack()
+
+        tk.Label(
+            ouverture_frame,
+            text="Ouverture : ",
             bg="white",
             font=("Arial", 18, "bold")
-        )
-        self.label_ouverture.pack()
+        ).pack(side="left")
+
+        tk.Label(
+            ouverture_frame,
+            textvariable=self.ouverture_var,
+            font=("Arial", 18),
+            bg="white"
+        ).pack(side="left")
 
 
     def dessiner_ouverture(self, pourcentage):
@@ -540,8 +549,6 @@ class Application:
                 fill=couleur,
                 outline=""
             )
-
-        self.label_ouverture.config(text=f"Ouverture : {pourcentage}%")
 
 
 
