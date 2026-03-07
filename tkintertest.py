@@ -33,6 +33,8 @@ class Application:
         self.ouverture_var = tk.StringVar()
 
         # Informations
+        self.etat_moteur = Moteur.ARRET
+        self.direction = Direction.GAUCHE
         self.distance_var = tk.StringVar()
         self.vitesse_var = tk.StringVar()
 
@@ -57,6 +59,8 @@ class Application:
 
         # Infos
         self.creer_infos()
+        self.update_etat_moteur()
+        self.update_direction()
         self.update_infos()
 
 
@@ -328,12 +332,13 @@ class Application:
             bg="white"
         ).pack(side="left", padx=5)
 
-        tk.Label(
+        self.label_moteur_marche = tk.Label(
             moteur_frame,
-            text="En marche",
+            text=Moteur.MARCHE.value,
             font=("Arial", 15),
             bg="white"
-        ).pack(side="left", padx=5)
+        )
+        self.label_moteur_marche.pack(side="left", padx=5)
 
         tk.Label(
             moteur_frame,
@@ -342,12 +347,13 @@ class Application:
             bg="white"
         ).pack(side="left", padx=5)
 
-        tk.Label(
+        self.label_moteur_arret = tk.Label(
             moteur_frame,
-            text="En arrêt",
+            text=Moteur.ARRET.value,
             font=("Arial", 15),
             bg="white"
-        ).pack(side="left", padx=5)
+        )
+        self.label_moteur_arret.pack(side="left", padx=5)
 
         # Direction
         direction_frame = tk.Frame(self.left_infos, bg="white")
@@ -360,12 +366,13 @@ class Application:
             bg="white"
         ).pack(side="left", padx=5)
 
-        tk.Label(
+        self.label_direction_gauche = tk.Label(
             direction_frame,
-            text="Gauche",
+            text=Direction.GAUCHE.value,
             font=("Arial", 15),
             bg="white"
-        ).pack(side="left", padx=5)
+        )
+        self.label_direction_gauche.pack(side="left", padx=5)
 
         tk.Label(
             direction_frame,
@@ -374,12 +381,13 @@ class Application:
             bg="white"
         ).pack(side="left", padx=5)
 
-        tk.Label(
+        self.label_direction_droite = tk.Label(
             direction_frame,
-            text="Droite",
+            text=Direction.DROITE.value,
             font=("Arial", 15),
             bg="white"
-        ).pack(side="left", padx=5)
+        )
+        self.label_direction_droite.pack(side="left", padx=5)
 
         # Distance
         distance_frame = tk.Frame(self.right_infos, bg="white")
@@ -417,7 +425,7 @@ class Application:
             bg="white"
         ).pack(side="left", padx=5)
 
-
+    # === DISTANCE & VITESSE ===
     def update_infos(self):
         distance = 22 # lire_distance()
         vitesse = 20 # lire_vitesse()
@@ -428,9 +436,43 @@ class Application:
         # Update à chaque secondes
         self.parent.after(1000, self.update_infos)
 
-    # def info_moteur(self):
 
-    # def info_direction(self):
+    # === ETAT MOTEUR ===
+    def update_etat_moteur(self):
+        # En Marche
+        if self.etat_moteur == Moteur.MARCHE:
+            self.label_moteur_marche.config(bg="#DAF7DB")
+            self.label_moteur_arret.config(bg="white")
+        # En Arrêt
+        else:
+            self.label_moteur_marche.config(bg="white")
+            self.label_moteur_arret.config(bg="#FFDBDF")
+
+    # Pour utiliser: self.set_etat_moteur(Moteur.MARCHE)
+    def set_etat_moteur(self, etat):
+        self.etat_moteur = etat
+        self.update_etat_moteur()
+
+
+    # === DIRECTION ===
+    def update_direction(self):
+        if self.etat_moteur == Moteur.ARRET:
+            self.label_direction_gauche.config(bg="white")
+            self.label_direction_droite.config(bg="white")
+            
+        # Gauche
+        elif self.direction == Direction.GAUCHE:
+            self.label_direction_gauche.config(bg="#E4E5FF")
+            self.label_direction_droite.config(bg="white")
+        # Droite
+        else:
+            self.label_direction_gauche.config(bg="white")
+            self.label_direction_droite.config(bg="#E4E5FF")
+
+    # Pour utiliser: self.set_direction(Direction.GAUCHE)
+    def set_direction(self, direction):
+        self.direction = direction
+        self.update_direction()
 
     # def lire_distance(self):
 
