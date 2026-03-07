@@ -48,6 +48,16 @@ class ManuelleManager:
             font=("Arial", 15)
         ).pack(side="left")
 
+        # Message d'erreur
+        self.app.label_erreur_entry = tk.Label(
+            manuelle_frame,
+            text="",
+            fg="red",
+            bg="white",
+            font=("Arial", 12)
+        )
+        self.app.label_erreur_entry.pack()
+
         # Bouttons pour manuelle
         self.app.btn_ouvrir = tk.Button(
             bottom_row,
@@ -72,14 +82,20 @@ class ManuelleManager:
         self.app.btn_fermer.pack(side="left", padx=10)
 
     def lire_valeur_manuelle(self):
+        texte = self.app.manuelle_input_var.get()
+
         try:
             valeur = float(self.app.manuelle_input_var.get())
 
             if 0 <= valeur <= 100:
+                self.app.label_erreur_entry.config(text="")
                 return valeur
+            else:
+                self.app.label_erreur_entry.config(text="La valeur doit être entre 0 et 100")
             return None
 
         except ValueError:
+            self.app.label_erreur_entry.config(text="Veuillez entrer un nombre valide")
             return None
 
     def ouvrir_porte_manuelle(self):
@@ -87,6 +103,7 @@ class ManuelleManager:
             return
 
         valeur = self.lire_valeur_manuelle()
+
         if valeur is not None:
             self.app.ouverture_actuelle = valeur
             self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
@@ -95,6 +112,8 @@ class ManuelleManager:
     def fermer_porte_manuelle(self):
         if self.app.mode != Mode.MANUELLE:
             return
+        
+        self.app.label_erreur_entry.config(text="")
 
         self.app.ouverture_actuelle = 0
         self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
