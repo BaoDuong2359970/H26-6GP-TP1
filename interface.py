@@ -31,7 +31,7 @@ class Application:
         self.vitesse_var = tk.StringVar()
         self.manuelle_input_var = tk.StringVar(value="0")
 
-        # États
+        # Enums
         self.mode = Mode.AUTOMATIQUE
         self.mode_var = tk.StringVar(value=self.mode.value)
 
@@ -44,7 +44,7 @@ class Application:
         self.manuelle_manager = ManuelleManager(self)
         self.infos_manager = InfosManager(self)
 
-        # UI
+        # Interface
         self.capteurs_manager.creer_donnees()
         self.mode_manager.creer_mode()
         self.mode_manager.creer_mode_boutons()
@@ -52,12 +52,11 @@ class Application:
         self.creer_ouverture_visuelle()
         self.infos_manager.creer_infos()
 
-        # Initial states
         self.mode_manager.switch_mode(self.mode)
         self.infos_manager.update_etat_moteur()
         self.infos_manager.update_direction()
 
-        # Loops
+        # Update données des capteurs
         self.capteurs_manager.update_donnees()
         self.infos_manager.update_infos()
 
@@ -70,6 +69,7 @@ class Application:
         )
         titre.pack(pady=20)
 
+    # Dessin du scale
     def creer_ouverture_visuelle(self):
         self.canvas_porte = tk.Canvas(
             self.right_frame,

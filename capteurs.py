@@ -81,8 +81,8 @@ class CapteursManager:
         return ouverture
 
     def update_donnees(self):
-        temperature = 30
-        luminosite = 80
+        temperature = 30 # TODO: appele lire_temperature
+        luminosite = 80 # TODO: appele lire_luminosite
 
         self.app.temperature_var.set(f"{temperature} °C")
         self.app.luminosite_var.set(f"{luminosite} (0-100)")
