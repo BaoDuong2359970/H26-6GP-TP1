@@ -31,6 +31,7 @@ class Application:
         self.temperature_var = tk.StringVar()
         self.luminosite_var = tk.StringVar()
         self.ouverture_var = tk.StringVar()
+        self.ouverture_actuelle = 0.0
 
         # Informations
         self.etat_moteur = Moteur.ARRET
@@ -46,12 +47,12 @@ class Application:
         self.mode_var.set(self.mode.value)
         self.creer_mode()
         self.creer_mode_boutons()
-        self.switch_mode(self.mode)
 
         # Manuelle
         self.manuelle_input_var = tk.StringVar()
         self.manuelle_input_var.set("0")
         self.creer_manuelle()
+        self.switch_mode(self.mode)
 
         # Dessin de la porte
         self.creer_ouverture_visuelle()
@@ -225,12 +226,13 @@ class Application:
             pady=5
         ).pack(side="left", padx=10)
 
-        tk.Entry(
+        self.entry_manuelle = tk.Entry(
             top_row,
             textvariable=self.manuelle_input_var,
             font=("Arial", 15),
             width=5
-        ).pack(side="left", padx=10)
+        )
+        self.entry_manuelle.pack(side="left", padx=10)
 
         tk.Label(
             top_row,
@@ -240,26 +242,47 @@ class Application:
         ).pack(side="left")
 
         # Bouttons pour manuelle
-        tk.Button(
+        self.btn_ouvrir = tk.Button(
             bottom_row,
             text="Ouvrir la porte",
-            command=self.lire_valeur_manuelle,
+            command=self.ouvrir_porte_manuelle,
             font=("Arial", 12),
             bg="#DAF7DB",
             padx=20,
             pady=5
-        ).pack(side="left", padx=10)
+        )
+        self.btn_ouvrir.pack(side="left", padx=10)
 
-        tk.Button(
+        self.btn_fermer = tk.Button(
             bottom_row,
             text="Fermer la porte",
-            command=self.lire_valeur_manuelle,
+            command=self.fermer_porte_manuelle,
             font=("Arial", 12),
             bg="#FFDBDF",
             padx=20,
             pady=5
-        ).pack(side="left", padx=10)
+        )
+        self.btn_fermer.pack(side="left", padx=10)
         
+    def ouvrir_porte_manuelle(self):
+        if self.mode != Mode.MANUELLE:
+            return
+        
+        valeur = self.lire_valeur_manuelle()
+        if valeur is not None:
+            self.ouverture_actuelle = valeur
+            self.ouverture_var.set(f"{self.ouverture_actuelle:.1f} %")
+            self.dessiner_ouverture(self.ouverture_actuelle)
+
+
+    def fermer_porte_manuelle(self):
+        if self.mode != Mode.MANUELLE:
+            return
+        
+        self.ouverture_actuelle = 0
+        self.ouverture_var.set(f"{self.ouverture_actuelle:.1f} %")
+        self.dessiner_ouverture(self.ouverture_actuelle)
+
 
     def lire_valeur_manuelle(self):
         try:
@@ -275,6 +298,17 @@ class Application:
         except ValueError:
             print("Entrée invalide")
             return None
+        
+    # Si pas mode manuelle, disable le entry et les boutons pour manuelle
+    def update_controle(self):
+        if self.mode == Mode.MANUELLE:
+            self.entry_manuelle.config(state="normal")
+            self.btn_ouvrir.config(state="normal")
+            self.btn_fermer.config(state="normal")
+        else:
+            self.entry_manuelle.config(state="disabled")
+            self.btn_ouvrir.config(state="disabled")
+            self.btn_fermer.config(state="disabled")
 
     # Changer de mode entre manuelle et auto
     def switch_mode(self, mode):
@@ -289,20 +323,41 @@ class Application:
             self.btn_automatique.config(bg="#E4E5FF")
             self.btn_manuelle.config(bg="#F4F4F4")
 
+        self.update_controle()
 
     # -------- Données des capteurs --------
     def update_donnees(self):
         temperature = 30 # lire_temperature()
         luminosite = 80 # lite_luminosite()
-        ouverture = 70 # calculer_ouverture(temperature, luminosite)
 
         self.temperature_var.set(f"{temperature} C")
         self.luminosite_var.set(f"{luminosite} (0-100)")
-        self.ouverture_var.set(f"{ouverture} %")
+
+        if self.mode == Mode.AUTOMATIQUE:
+            ouverture = self.calculer_ouverture(temperature, luminosite)
+
+        self.ouverture_var.set(f"{self.ouverture_actuelle:.1f} %")
+        self.dessiner_ouverture(self.ouverture_actuelle)
 
         # Update à chaque secondes
         self.parent.after(1000, self.update_donnees)
-        self.dessiner_ouverture(ouverture)
+
+    def calculer_ouverture(self, temperature, luminosite):
+        # Délai
+        k = 0.5
+
+        # Ouverture basé sur température
+        ouverture = 5 * (temperature - 20)
+        ouverture = max(0, min(100, ouverture)) # Assurer valeur entre 0% et 100%
+
+        # Ouverture avec luminosité
+        if luminosite > 60:
+            facteur = 1 - k * (luminosite - 60) / 40
+            ouverture = ouverture * facteur
+
+        ouverture = max(0, min(100, ouverture))
+
+        return ouverture
 
     # -------- Lire les données --------
     # def lire_temperature():
