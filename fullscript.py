@@ -1,17 +1,5 @@
 import tkinter as tk
-from enum import Enum
-
-class Mode(Enum):
-    AUTOMATIQUE = "Automatique"
-    MANUELLE = "Manuelle"
-
-class Moteur(Enum):
-    MARCHE = "En marche"
-    ARRET = "En arrêt"
-
-class Direction(Enum):
-    GAUCHE = "Gauche"
-    DROITE = "Droite"
+from enums import Mode, Moteur, Direction
 
 class Application:
     def __init__(self, racine):
@@ -364,7 +352,6 @@ class Application:
 
     # def lire_luminosite():
     
-    # def calculer_ouverture(temperature, luminosite):
 
     def creer_infos(self):
         self.infos_frame = tk.Frame(self.parent, bg="white")
