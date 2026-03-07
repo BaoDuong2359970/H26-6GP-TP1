@@ -5,46 +5,75 @@ class Mode(Enum):
     AUTOMATIQUE = "Automatique"
     MANUELLE = "Manuelle"
 
+class Moteur(Enum):
+    MARCHE = "En marche"
+    ARRET = "En arrêt"
+
+class Direction(Enum):
+    GAUCHE = "Gauche"
+    DROITE = "Droite"
+
 class Application:
     def __init__(self, racine):
         self.parent = racine
         self.creer_titre()
+
+        self.main_frame = tk.Frame(self.parent, bg="white")
+        self.main_frame.pack()
+
+        self.left_frame = tk.Frame(self.main_frame, bg="white")
+        self.left_frame.pack(side="left", padx=20)
+
+        self.right_frame = tk.Frame(self.main_frame, bg="white")
+        self.right_frame.pack(side="left", padx=20)
 
         # Données des capteurs
         self.temperature_var = tk.StringVar()
         self.luminosite_var = tk.StringVar()
         self.ouverture_var = tk.StringVar()
 
+        # Informations
+        self.distance_var = tk.StringVar()
+        self.vitesse_var = tk.StringVar()
+
         self.creer_donnees()
-        self.update_donnees()
 
         # Mode de la porte
         self.mode = Mode.AUTOMATIQUE # Commence en mode auto
         self.mode_var = tk.StringVar()
         self.mode_var.set(self.mode.value)
         self.creer_mode()
+        self.creer_mode_boutons()
+        self.switch_mode(self.mode)
 
         # Manuelle
         self.manuelle_input_var = tk.StringVar()
         self.manuelle_input_var.set("0")
         self.creer_manuelle()
 
+        # Dessin de la porte
+        self.creer_ouverture_visuelle()
+        self.update_donnees()
+
+        # Infos
+        self.creer_infos()
+        self.update_infos()
+
+
     # -------- Title frame --------
     def creer_titre(self):
-        titre_frame = tk.Frame(self.parent)
-        titre_frame.pack(pady=20)
-
         titre = tk.Label(
-            titre_frame,
+            self.parent,
             text="Contrôle d'une porte d'aération d'une serre",
-            font=("Arial", 18, "bold")
+            font=("Arial", 18, "bold"),
+            bg="white"
         )
-        titre.pack()
+        titre.pack(pady=20)
 
 
     # -------- Données des capteurs frame --------
     def creer_donnees(self):
-        donnees_frame = tk.Frame(self.parent)
+        donnees_frame = tk.Frame(self.left_frame, bg="white")
         donnees_frame.pack(pady=20)
 
         # Température
@@ -54,59 +83,66 @@ class Application:
         tk.Label(
             temp_row,
             text="Température interne ambiante:",
-            font=("Arial", 15, "bold")
+            font=("Arial", 15, "bold"),
+            bg="white"
         ).pack(side="left")
 
         tk.Label(
             temp_row,
             textvariable=self.temperature_var,
-            font=("Arial", 15)
+            font=("Arial", 15),
+            bg="white"
         ).pack(side="left")
 
 
         # Luminosité
-        lumi_row = tk.Frame(donnees_frame)
+        lumi_row = tk.Frame(donnees_frame, bg="white")
         lumi_row.pack(anchor="w")
 
         tk.Label(
             lumi_row,
             text="Intensité lumineuse à l'interne:",
-            font=("Arial", 15, "bold")
+            font=("Arial", 15, "bold"),
+            bg="white"
         ).pack(side="left")
 
         tk.Label(
             lumi_row,
             textvariable=self.luminosite_var,
-            font=("Arial", 15)
+            font=("Arial", 15),
+            bg="white"
         ).pack(side="left")
 
 
         # Ouverture de la porte
-        ouvert_row = tk.Frame(donnees_frame)
+        ouvert_row = tk.Frame(donnees_frame, bg="white")
         ouvert_row.pack(anchor="w")
 
         tk.Label(
             ouvert_row,
             text="Ouverture de la porte automatique:",
-            font=("Arial", 15, "bold")
+            font=("Arial", 15, "bold"),
+            bg="white"
         ).pack(side="left")
 
         tk.Label(
             ouvert_row,
             textvariable=self.ouverture_var,
-            font=("Arial", 15)
+            font=("Arial", 15),
+            bg="white"
         ).pack(side="left")
 
 
     # -------- Mode de l'app --------
     def creer_mode(self):
-        mode_frame = tk.Frame(self.parent)
+        mode_frame = tk.Frame(self.left_frame, bg="white")
         mode_frame.pack(pady=10)
 
         tk.Label(
             mode_frame,
             text="Contrôle :",
-            font=("Arial", 15, "bold")
+            font=("Arial", 15, "bold"),
+            bg="white"
         ).pack(side="left", padx=10)
 
         tk.Label(
@@ -115,30 +151,64 @@ class Application:
             font=("Arial", 15),
             relief="solid",
             padx=10,
-            pady=5
+            pady=5,
+            bg="white"
         ).pack(side="left")
 
-        # Test for the mode button
-        tk.Button(
-            mode_frame,
-            text="Changer mode",
-            command=self.switch_mode
-        ).pack(padx=10)
 
+    def creer_mode_boutons(self):
+        mode_boutons_frame = tk.Frame(self.right_frame, bg="white")
+        mode_boutons_frame.pack(pady=10)
+
+        tk.Label(
+            mode_boutons_frame,
+            text="Mode :",
+            font=("Arial", 15, "bold"),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        self.btn_manuelle = tk.Button(
+            mode_boutons_frame,
+            text="Manuelle",
+            font=("Arial", 12, "bold"),
+            command=lambda: self.switch_mode(Mode.MANUELLE),
+            bg="white"
+        )
+        self.btn_manuelle.pack(side="left", padx=5)
+
+        tk.Label(
+            mode_boutons_frame,
+            text="|",
+            font=("Arial", 12, "bold"),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        self.btn_automatique = tk.Button(
+            mode_boutons_frame,
+            text="Automatique",
+            font=("Arial", 12, "bold"),
+            command=lambda: self.switch_mode(Mode.AUTOMATIQUE),
+            bg="white"
+        )
+        self.btn_automatique.pack(side="left", padx=5)
+
+
+    # -------- Section Manuelle --------
     def creer_manuelle(self):
         manuelle_frame = tk.Frame(
-            self.parent,
+            self.left_frame,
             bd=2,
             relief="solid",
+            bg="white",
             padx=10,
             pady=10
         )
         manuelle_frame.pack(pady=10)
 
-        top_row = tk.Frame(manuelle_frame)
+        top_row = tk.Frame(manuelle_frame, bg="white")
         top_row.pack(pady=5)
 
-        bottom_row = tk.Frame(manuelle_frame)
+        bottom_row = tk.Frame(manuelle_frame, bg="white")
         bottom_row.pack(pady=10)
 
         tk.Label(
@@ -146,6 +216,7 @@ class Application:
             text="Manuelle",
             font=("Arial", 15),
             relief="solid",
+            bg="white",
             padx=10,
             pady=5
         ).pack(side="left", padx=10)
@@ -159,6 +230,7 @@ class Application:
 
         tk.Label(
             top_row,
+            bg="white",
             text="%",
             font=("Arial", 15)
         ).pack(side="left")
@@ -201,20 +273,24 @@ class Application:
             return None
 
     # Changer de mode entre manuelle et auto
-    def switch_mode(self):
-        if self.mode == Mode.AUTOMATIQUE:
-            self.mode = Mode.MANUELLE
+    def switch_mode(self, mode):
+        self.mode = mode
+        self.mode_var.set(mode.value)
+
+        if mode == Mode.MANUELLE:
+            self.btn_manuelle.config(bg="#E4E5FF")
+            self.btn_automatique.config(bg="#F4F4F4")
+
         else:
-            self.mode = Mode.AUTOMATIQUE
-        
-        self.mode_var.set(self.mode.value)
+            self.btn_automatique.config(bg="#E4E5FF")
+            self.btn_manuelle.config(bg="#F4F4F4")
 
 
-
+    # -------- Données des capteurs --------
     def update_donnees(self):
         temperature = 30 # lire_temperature()
         luminosite = 80 # lite_luminosite()
-        ouverture = 37.5 # calculer_ouverture(temperature, luminosite)
+        ouverture = 70 # calculer_ouverture(temperature, luminosite)
 
         self.temperature_var.set(f"{temperature} C")
         self.luminosite_var.set(f"{luminosite} (0-100)")
@@ -222,19 +298,216 @@ class Application:
 
         # Update à chaque secondes
         self.parent.after(1000, self.update_donnees)
+        self.dessiner_ouverture(ouverture)
 
-    # -------- Lire les données des capteurs --------
+    # -------- Lire les données --------
     # def lire_temperature():
 
     # def lire_luminosite():
     
     # def calculer_ouverture(temperature, luminosite):
 
+    def creer_infos(self):
+        self.infos_frame = tk.Frame(self.parent, bg="white")
+        self.infos_frame.pack(pady=30)
+
+        self.left_infos = tk.Frame(self.infos_frame, bg="white")
+        self.left_infos.pack(side="left", padx=30)
+
+        self.right_infos = tk.Frame(self.infos_frame, bg="white")
+        self.right_infos.pack(side="left", padx=30)
+
+        # Moteur
+        moteur_frame = tk.Frame(self.left_infos, bg="white")
+        moteur_frame.pack(anchor="w")
+
+        tk.Label(
+            moteur_frame,
+            text="Moteur :",
+            font=("Arial", 15, "bold"),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        tk.Label(
+            moteur_frame,
+            text="En marche",
+            font=("Arial", 15),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        tk.Label(
+            moteur_frame,
+            text="|",
+            font=("Arial", 15, "bold"),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        tk.Label(
+            moteur_frame,
+            text="En arrêt",
+            font=("Arial", 15),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        # Direction
+        direction_frame = tk.Frame(self.left_infos, bg="white")
+        direction_frame.pack(anchor="w", pady=5)
+
+        tk.Label(
+            direction_frame,
+            text="Direction :",
+            font=("Arial", 15, "bold"),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        tk.Label(
+            direction_frame,
+            text="Gauche",
+            font=("Arial", 15),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        tk.Label(
+            direction_frame,
+            text="|",
+            font=("Arial", 15, "bold"),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        tk.Label(
+            direction_frame,
+            text="Droite",
+            font=("Arial", 15),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        # Distance
+        distance_frame = tk.Frame(self.right_infos, bg="white")
+        distance_frame.pack(anchor="w")
+
+        tk.Label(
+            distance_frame,
+            text="Détecteur de distance :",
+            font=("Arial", 15, "bold"),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        tk.Label(
+            distance_frame,
+            textvariable=self.distance_var,
+            font=("Arial", 15),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        # Vitesse
+        vitesse_frame = tk.Frame(self.right_infos, bg="white")
+        vitesse_frame.pack(anchor="w", pady=5)
+
+        tk.Label(
+            vitesse_frame,
+            text="Vitesse :",
+            font=("Arial", 15, "bold"),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+        tk.Label(
+            vitesse_frame,
+            textvariable=self.vitesse_var,
+            font=("Arial", 15),
+            bg="white"
+        ).pack(side="left", padx=5)
+
+
+    def update_infos(self):
+        distance = 22 # lire_distance()
+        vitesse = 20 # lire_vitesse()
+
+        self.distance_var.set(f"{distance} cm")
+        self.vitesse_var.set(f"{vitesse} tour/min")
+
+        # Update à chaque secondes
+        self.parent.after(1000, self.update_infos)
+
+    # def info_moteur(self):
+
+    # def info_direction(self):
+
+    # def lire_distance(self):
+
+    # def lire_vitesse(self):
+
+
+    # ------------------- Dessin de la porte -------------------
+    def creer_ouverture_visuelle(self):
+        self.canvas_porte = tk.Canvas(
+            self.right_frame,
+            width=150,
+            height=210,
+            bg="white",
+            highlightthickness=0
+        )
+        self.canvas_porte.pack(pady=10)
+
+        self.label_ouverture = tk.Label(
+            self.right_frame,
+            text="Ouverture : 0%",
+            bg="white",
+            font=("Arial", 18, "bold")
+        )
+        self.label_ouverture.pack()
+
+
+    def dessiner_ouverture(self, pourcentage):
+        self.canvas_porte.delete("all")
+
+        pourcentage = max(0, min(100, pourcentage))
+
+        # Coordonnées du rectangle de la porte
+        x1, y1 = 30, 20 # top left
+        x2, y2 = 110, 200 # bottom right
+
+        # Dessiner la bordure
+        self.canvas_porte.create_rectangle(
+            x1, y1, x2, y2,
+            outline="black",
+            width=3
+        )
+
+        nb_sections = 10
+        margin = 5
+
+        hauteur_utilisable = (y2 - y1) - (2 * margin)
+        barres_remplies = round((pourcentage / 100) * nb_sections)
+
+        hauteur_par_barre = hauteur_utilisable / nb_sections
+
+        for i in range(nb_sections):
+            top = y1 + margin + i * hauteur_par_barre # start of the bar (top of door + margin + position)
+            bottom = top + hauteur_par_barre # bottom of the bar
+
+            if i < barres_remplies:
+                couleur = "#C4C6F9"
+            else:
+                couleur = "#E8E8E8"
+
+            self.canvas_porte.create_rectangle(
+                x1 + 5, # left
+                top + 2, # top
+                x2 - 5, # right
+                bottom -2, # bottom
+                fill=couleur,
+                outline=""
+            )
+
+        self.label_ouverture.config(text=f"Ouverture : {pourcentage}%")
+
+
 
 if __name__ == "__main__":
     racine = tk.Tk()
     racine.title("TP1 par Alicia Achour & Elena Duong")
     racine.geometry("900x600")
+    racine.configure(bg="white")
 
     app = Application(racine)
     racine.mainloop()
