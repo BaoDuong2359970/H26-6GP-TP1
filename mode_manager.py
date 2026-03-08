@@ -1,5 +1,5 @@
 import tkinter as tk
-from enums import Mode
+from enums import Mode, Moteur
 
 class ModeManager:
     def __init__(self, app):
@@ -66,6 +66,10 @@ class ModeManager:
 
     # Changer de mode entre manuelle et auto
     def switch_mode(self, mode):
+        # Arrêter le moteur quand on change de mode temporairement
+        self.app.etat_moteur = Moteur.ARRET
+        self.app.infos_manager.update_etat_moteur()
+
         self.app.mode = mode
         self.app.mode_var.set(mode.value)
 
