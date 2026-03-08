@@ -24,6 +24,7 @@ class Application:
         # Variables
         self.temperature_var = tk.StringVar()
         self.luminosite_var = tk.StringVar()
+        self.ouverture_auto_var = tk.StringVar()
         self.ouverture_var = tk.StringVar()
         self.ouverture_actuelle = 0.0
 

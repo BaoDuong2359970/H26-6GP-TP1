@@ -58,7 +58,7 @@ class CapteursManager:
 
         tk.Label(
             ouvert_row,
-            textvariable=self.app.ouverture_var,
+            textvariable=self.app.ouverture_auto_var,
             font=("Arial", 15),
             bg="white"
         ).pack(side="left")
@@ -89,6 +89,7 @@ class CapteursManager:
 
         if self.app.mode.name == "AUTOMATIQUE":
             self.app.ouverture_actuelle = self.calculer_ouverture(temperature, luminosite)
+            self.app.ouverture_auto_var.set(f"{self.app.ouverture_actuelle:.1f} %")
 
         self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
         self.app.dessiner_ouverture(self.app.ouverture_actuelle)

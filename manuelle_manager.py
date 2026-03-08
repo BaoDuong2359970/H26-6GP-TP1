@@ -1,5 +1,5 @@
 import tkinter as tk
-from enums import Mode
+from enums import Mode, Moteur
 
 
 class ManuelleManager:
@@ -105,6 +105,9 @@ class ManuelleManager:
         valeur = self.lire_valeur_manuelle()
 
         if valeur is not None:
+            self.app.etat_moteur = Moteur.MARCHE
+            self.app.infos_manager.update_etat_moteur()
+
             self.app.ouverture_actuelle = valeur
             self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
             self.app.dessiner_ouverture(self.app.ouverture_actuelle)
