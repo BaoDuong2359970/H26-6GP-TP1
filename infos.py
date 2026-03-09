@@ -98,23 +98,6 @@ class InfosManager:
             bg="white"
         ).pack(side="left", padx=5)
 
-        vitesse_frame = tk.Frame(self.app.right_infos, bg="white")
-        vitesse_frame.pack(anchor="w", pady=5)
-
-        tk.Label(
-            vitesse_frame,
-            text="Vitesse :",
-            font=("Arial", 15, "bold"),
-            bg="white"
-        ).pack(side="left", padx=5)
-
-        tk.Label(
-            vitesse_frame,
-            textvariable=self.app.vitesse_var,
-            font=("Arial", 15),
-            bg="white"
-        ).pack(side="left", padx=5)
-
     def update_infos(self):
         ouverture_reelle = getattr(self.app, "ouverture_reelle", None)
         ouverture_cible = self.app.ouverture_actuelle

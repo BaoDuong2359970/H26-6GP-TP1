@@ -267,7 +267,6 @@ class CapteursManager:
 
         self.app.luminosite_var.set(f"{luminosite:.1f} (0-100)")
         self.app.distance_var.set(f"{distance} cm" if distance is not None else "-- cm")
-        self.app.vitesse_var.set("20 tour/min")
         self.app.humidite = humidite
 
         ouverture_reelle = self.calculer_pourcentage_ouverture_reelle(distance)

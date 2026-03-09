@@ -31,7 +31,6 @@ class Application:
         self.humidite = None
 
         self.distance_var = tk.StringVar()
-        self.vitesse_var = tk.StringVar()
         self.manuelle_input_var = tk.StringVar(value="0")
 
         # Enums
