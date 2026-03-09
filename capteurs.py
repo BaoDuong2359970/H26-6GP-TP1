@@ -4,8 +4,8 @@ import board
 import adafruit_dht
 import RPi.GPIO as GPIO
 from gpiozero import OutputDevice
-from enums import Mode
-
+from enums import Mode, Moteur
+from infos import InfosManager
 
 class CapteursManager:
 
@@ -150,16 +150,25 @@ class CapteursManager:
                 self.motors[i].off()
 
     def motor_off(self):
+        self.app.etat_moteur = Moteur.ARRET
+        self.app.infos_manager.update_etat_moteur()
+
         for motor in self.motors:
             motor.off()
 
     def rotate_open(self):
+        self.app.etat_moteur = Moteur.MARCHE
+        self.app.infos_manager.update_etat_moteur()
+
         for _ in range(self.STEPS_PER_CYCLE):
             for step in self.seq:
                 self.set_step(step)
                 time.sleep(self.STEP_DELAY)
 
     def rotate_close(self):
+        self.app.etat_moteur = Moteur.MARCHE
+        self.app.infos_manager.update_etat_moteur()
+
         for _ in range(self.STEPS_PER_CYCLE):
             for step in reversed(self.seq):
                 self.set_step(step)

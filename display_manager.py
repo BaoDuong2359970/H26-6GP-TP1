@@ -3,7 +3,6 @@ from RPLCD.i2c import CharLCD
 class DisplayManager:
 
     def __init__(self, app):
-
         self.app = app
 
         self.lcd = CharLCD(
@@ -17,9 +16,7 @@ class DisplayManager:
         self.page = 0
 
     def update_display(self):
-
         try:
-
             if self.page == 0:
 
                 temp = self.app.temperature_var.get()
