@@ -5,6 +5,7 @@ from capteurs import CapteursManager
 from mode_manager import ModeManager
 from manuelle_manager import ManuelleManager
 from infos import InfosManager
+from display_manager import DisplayManager
 
 
 class Application:
@@ -24,9 +25,10 @@ class Application:
         # Variables
         self.temperature_var = tk.StringVar()
         self.luminosite_var = tk.StringVar()
-        self.ouverture_auto_var = tk.StringVar()
         self.ouverture_var = tk.StringVar()
         self.ouverture_actuelle = 0.0
+        self.ouverture_reelle = 0.0
+        self.humidite = None
 
         self.distance_var = tk.StringVar()
         self.vitesse_var = tk.StringVar()
@@ -44,6 +46,7 @@ class Application:
         self.mode_manager = ModeManager(self)
         self.manuelle_manager = ManuelleManager(self)
         self.infos_manager = InfosManager(self)
+        self.display_manager = DisplayManager(self)
 
         # Interface
         self.capteurs_manager.creer_donnees()
@@ -57,9 +60,10 @@ class Application:
         self.infos_manager.update_etat_moteur()
         self.infos_manager.update_direction()
 
-        # Update données des capteurs
+        # Updates
         self.capteurs_manager.update_donnees()
         self.infos_manager.update_infos()
+        self.display_manager.update_display()
 
     def creer_titre(self):
         titre = tk.Label(
@@ -70,7 +74,6 @@ class Application:
         )
         titre.pack(pady=20)
 
-    # Dessin du scale
     def creer_ouverture_visuelle(self):
         self.canvas_porte = tk.Canvas(
             self.right_frame,
@@ -103,11 +106,9 @@ class Application:
 
         pourcentage = max(0, min(100, pourcentage))
 
-        # Coordonnées du rectangle de la porte
-        x1, y1 = 30, 20 # top left
-        x2, y2 = 110, 200 # bottom right
+        x1, y1 = 30, 20
+        x2, y2 = 110, 200
 
-        # Dessiner la bordure
         self.canvas_porte.create_rectangle(
             x1, y1, x2, y2,
             outline="black",
@@ -119,12 +120,11 @@ class Application:
 
         hauteur_utilisable = (y2 - y1) - (2 * margin)
         barres_remplies = round((pourcentage / 100) * nb_sections)
-
         hauteur_par_barre = hauteur_utilisable / nb_sections
 
         for i in range(nb_sections):
-            top = y1 + margin + i * hauteur_par_barre # start of the bar (top of door + margin + position)
-            bottom = top + hauteur_par_barre # bottom of the bar
+            top = y1 + margin + i * hauteur_par_barre
+            bottom = top + hauteur_par_barre
 
             if i < barres_remplies:
                 couleur = "#C4C6F9"
@@ -132,10 +132,10 @@ class Application:
                 couleur = "#E8E8E8"
 
             self.canvas_porte.create_rectangle(
-                x1 + 5, # left
-                top + 2, # top
-                x2 - 5, # right
-                bottom -2, # bottom
+                x1 + 5,
+                top + 2,
+                x2 - 5,
+                bottom - 2,
                 fill=couleur,
                 outline=""
             )
