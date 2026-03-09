@@ -17,7 +17,7 @@ Pour utiliser ce logiciel, vous devez avoir les composants suivants :
 - Écran **LCD**  
 - Breadboard  
 - Résistances  
-- Fils   
+- Fils électriques 
 
 ## Installation et utilisation
 
