@@ -1,5 +1,5 @@
 import tkinter as tk
-from enums import Mode
+from enums import Mode, Moteur
 
 
 class ManuelleManager:

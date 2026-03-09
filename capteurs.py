@@ -70,7 +70,7 @@ class CapteursManager:
         tk.Label(frame, textvariable=self.app.luminosite_var, font=("Arial", 15), bg="white").pack(anchor="w")
 
         tk.Label(frame, text="Ouverture automatique:", font=("Arial", 15, "bold"), bg="white").pack(anchor="w")
-        tk.Label(frame, textvariable=self.app.ouverture_var, font=("Arial", 15), bg="white").pack(anchor="w")
+        tk.Label(frame, textvariable=self.app.ouverture_auto_var, font=("Arial", 15), bg="white").pack(anchor="w")
 
     def clamp(self, value, vmin, vmax):
         return max(vmin, min(value, vmax))
@@ -277,6 +277,7 @@ class CapteursManager:
             target_distance = self.percent_to_auto_distance(cible)
 
             self.app.ouverture_actuelle = cible
+            self.app.ouverture_auto_var.set(f"{self.app.ouverture_actuelle:.1f} %")
             self.control_once(target_distance, distance)
 
         self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
