@@ -1,0 +1,400 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.2.2 Chrome/134.0.6998.178 Electron/35.1.2 Safari/537.36" version="26.2.2">
+  <diagram name="Page-1" id="sCJ4SiRRPSQrjzSicakg">
+    <mxGraphModel dx="944" dy="1422" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="145" y="190" width="210" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-2" value="3.3V&#xa;SDA1&#xa;SCL1&#xa;GPIO4&#xa;GND&#xa;GPIO17&#xa;GPIO27&#xa;GPIO22&#xa;3.3V&#xa;MOSI&#xa;MISO&#xa;SCLK&#xa;GND&#xa;SDA0&#xa;GPIO5&#xa;GPIO6&#xa;GPIO13&#xa;GPIO19&#xa;GPIO26&#xa;GND" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;spacingTop=0;spacingBottom=0;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="155" y="195" width="70" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-3" value="5V&lt;div&gt;5V&lt;/div&gt;&lt;div&gt;GND&lt;/div&gt;&lt;div&gt;TXD0&lt;/div&gt;&lt;div&gt;RXD0&lt;/div&gt;&lt;div&gt;GPIO18&lt;/div&gt;&lt;div&gt;GND&lt;/div&gt;&lt;div&gt;GPIO23&lt;/div&gt;&lt;div&gt;GPIO24&lt;/div&gt;&lt;div&gt;GND&lt;/div&gt;&lt;div&gt;GPIO25&lt;/div&gt;&lt;div&gt;CE0&lt;/div&gt;&lt;div&gt;CE1&lt;/div&gt;&lt;div&gt;SCL0&lt;/div&gt;&lt;div&gt;GND&lt;/div&gt;&lt;div&gt;GPIO12&lt;/div&gt;&lt;div&gt;GND&lt;/div&gt;&lt;div&gt;GPIO16&lt;/div&gt;&lt;div&gt;GPIO20&lt;/div&gt;&lt;div&gt;GPIO21&lt;/div&gt;" style="text;html=1;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;spacingTop=0;spacingBottom=0;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="275" y="196" width="70" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-4" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="204" as="sourcePoint" />
+            <mxPoint x="145" y="204" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-5" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="222" as="sourcePoint" />
+            <mxPoint x="145" y="222" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-6" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="240" as="sourcePoint" />
+            <mxPoint x="145" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-7" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="259" as="sourcePoint" />
+            <mxPoint x="145" y="259" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-8" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="276" as="sourcePoint" />
+            <mxPoint x="145" y="276" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-10" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="295" as="sourcePoint" />
+            <mxPoint x="145" y="295" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-11" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="313" as="sourcePoint" />
+            <mxPoint x="145" y="313" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-12" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="330" as="sourcePoint" />
+            <mxPoint x="145" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-13" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="349" as="sourcePoint" />
+            <mxPoint x="145" y="349" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-15" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="368" as="sourcePoint" />
+            <mxPoint x="145" y="368" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-16" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="385" as="sourcePoint" />
+            <mxPoint x="145" y="385" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-17" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="403" as="sourcePoint" />
+            <mxPoint x="145" y="403" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-18" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="420" as="sourcePoint" />
+            <mxPoint x="145" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-19" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="440" as="sourcePoint" />
+            <mxPoint x="145" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-20" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="457" as="sourcePoint" />
+            <mxPoint x="145" y="457" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-21" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="474" as="sourcePoint" />
+            <mxPoint x="145" y="474" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-22" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="492" as="sourcePoint" />
+            <mxPoint x="145" y="492" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-23" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="510" as="sourcePoint" />
+            <mxPoint x="145" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-24" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="529" as="sourcePoint" />
+            <mxPoint x="145" y="529" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-25" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="105" y="547" as="sourcePoint" />
+            <mxPoint x="145" y="547" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-26" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="205" as="sourcePoint" />
+            <mxPoint x="395" y="205" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-27" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="222" as="sourcePoint" />
+            <mxPoint x="395" y="222" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-28" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="240" as="sourcePoint" />
+            <mxPoint x="395" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-29" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="257" as="sourcePoint" />
+            <mxPoint x="395" y="257" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-30" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="276" as="sourcePoint" />
+            <mxPoint x="395" y="276" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-31" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="294" as="sourcePoint" />
+            <mxPoint x="395" y="294" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-32" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="312" as="sourcePoint" />
+            <mxPoint x="395" y="312" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-33" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="330" as="sourcePoint" />
+            <mxPoint x="395" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-34" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="350" as="sourcePoint" />
+            <mxPoint x="395" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-36" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="384" as="sourcePoint" />
+            <mxPoint x="395" y="384" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-37" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="402" as="sourcePoint" />
+            <mxPoint x="395" y="402" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-38" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="420" as="sourcePoint" />
+            <mxPoint x="395" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-39" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="438" as="sourcePoint" />
+            <mxPoint x="395" y="438" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-40" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="456" as="sourcePoint" />
+            <mxPoint x="395" y="456" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-41" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="474" as="sourcePoint" />
+            <mxPoint x="395" y="474" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-42" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="493" as="sourcePoint" />
+            <mxPoint x="395" y="493" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-43" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="510" as="sourcePoint" />
+            <mxPoint x="395" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-44" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="527" as="sourcePoint" />
+            <mxPoint x="395" y="527" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-45" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="546" as="sourcePoint" />
+            <mxPoint x="395" y="546" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-46" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="585" y="260" width="160" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-47" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;VCC&lt;/span&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;Trig&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;Echo&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;GND&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="595" y="330" width="60" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-50" value="" style="pointerEvents=1;verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.resistors.resistor_2;rotation=90;" vertex="1" parent="1">
+          <mxGeometry x="482.5" y="460" width="50" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-51" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;R1&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;1KΩ&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="512.5" y="400" width="45" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-54" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" vertex="1" parent="1">
+          <mxGeometry x="497.5" y="380" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-58" value="" style="pointerEvents=1;verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.resistors.resistor_2;" vertex="1" parent="1">
+          <mxGeometry x="510" y="385" width="50" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-62" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;R2&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;2KΩ&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="465" y="450" width="45" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-63" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="555" y="350" as="sourcePoint" />
+            <mxPoint x="585" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-64" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="555" y="330" as="sourcePoint" />
+            <mxPoint x="555" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-65" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="330" as="sourcePoint" />
+            <mxPoint x="555" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-66" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="575" y="310" as="sourcePoint" />
+            <mxPoint x="585" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-67" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="575" y="310" as="sourcePoint" />
+            <mxPoint x="575" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-68" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="395" y="222" as="sourcePoint" />
+            <mxPoint x="575" y="222" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-70" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="508" y="440" as="sourcePoint" />
+            <mxPoint x="507.64" y="392" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-75" value="&lt;font style=&quot;font-size: 25px;&quot;&gt;Capteur de distance HC-SR04&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="310" y="90" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-76" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="555" y="390" as="sourcePoint" />
+            <mxPoint x="585" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-78" value="" style="endArrow=none;html=1;rounded=0;entryX=0.354;entryY=0.499;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="MOylOLVE2s6q1Ftc-rSg-54">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="390" as="sourcePoint" />
+            <mxPoint x="490" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-79" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="390" as="sourcePoint" />
+            <mxPoint x="440" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-80" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="350" as="sourcePoint" />
+            <mxPoint x="440" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-83" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="366.85" as="sourcePoint" />
+            <mxPoint x="395" y="366.85" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-84" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="520" y="510" as="sourcePoint" />
+            <mxPoint x="560" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-85" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="524.5" y="517" as="sourcePoint" />
+            <mxPoint x="554.5" y="517" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-86" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="532.5" y="524" as="sourcePoint" />
+            <mxPoint x="548" y="524" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-87" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="510" as="sourcePoint" />
+            <mxPoint x="540" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-88" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="MOylOLVE2s6q1Ftc-rSg-50">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="520" y="490" as="sourcePoint" />
+            <mxPoint x="540" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-89" value="" style="endArrow=none;html=1;rounded=0;entryX=0.002;entryY=0.779;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="MOylOLVE2s6q1Ftc-rSg-46">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="440" as="sourcePoint" />
+            <mxPoint x="570" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-90" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="MOylOLVE2s6q1Ftc-rSg-91">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="490" as="sourcePoint" />
+            <mxPoint x="540" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-92" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" target="MOylOLVE2s6q1Ftc-rSg-91">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="490" as="sourcePoint" />
+            <mxPoint x="540" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOylOLVE2s6q1Ftc-rSg-91" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" vertex="1" parent="1">
+          <mxGeometry x="529.5" y="480" width="20" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
