@@ -1,7 +1,6 @@
 import tkinter as tk
 from enums import Moteur, Direction
 
-
 class InfosManager:
     def __init__(self, app):
         self.app = app
@@ -16,7 +15,6 @@ class InfosManager:
         self.app.right_infos = tk.Frame(self.app.infos_frame, bg="white")
         self.app.right_infos.pack(side="left", padx=30)
 
-        # Moteur
         moteur_frame = tk.Frame(self.app.left_infos, bg="white")
         moteur_frame.pack(anchor="w")
 
@@ -50,7 +48,6 @@ class InfosManager:
         )
         self.app.label_moteur_arret.pack(side="left", padx=5)
 
-        # Direction
         direction_frame = tk.Frame(self.app.left_infos, bg="white")
         direction_frame.pack(anchor="w", pady=5)
 
@@ -84,7 +81,6 @@ class InfosManager:
         )
         self.app.label_direction_droite.pack(side="left", padx=5)
 
-        # Distance
         distance_frame = tk.Frame(self.app.right_infos, bg="white")
         distance_frame.pack(anchor="w")
 
@@ -102,7 +98,6 @@ class InfosManager:
             bg="white"
         ).pack(side="left", padx=5)
 
-        # Vitesse
         vitesse_frame = tk.Frame(self.app.right_infos, bg="white")
         vitesse_frame.pack(anchor="w", pady=5)
 
@@ -121,15 +116,26 @@ class InfosManager:
         ).pack(side="left", padx=5)
 
     def update_infos(self):
-        distance = 22 # TODO: Remplace par données des senseurs
-        vitesse = 20 # TODO: Remplace par données des senseurs
+        ouverture_reelle = getattr(self.app, "ouverture_reelle", None)
+        ouverture_cible = self.app.ouverture_actuelle
 
-        self.app.distance_var.set(f"{distance} cm")
-        self.app.vitesse_var.set(f"{vitesse} tour/min")
+        if ouverture_reelle is None:
+            self.set_etat_moteur(Moteur.ARRET)
+        else:
+            ecart = ouverture_cible - ouverture_reelle
+
+            if abs(ecart) <= 3:
+                self.set_etat_moteur(Moteur.ARRET)
+            else:
+                self.set_etat_moteur(Moteur.MARCHE)
+
+                if ecart > 0:
+                    self.set_direction(Direction.DROITE)
+                else:
+                    self.set_direction(Direction.GAUCHE)
 
         self.app.parent.after(1000, self.update_infos)
 
-    # Gestion des couleurs pour moteur
     def update_etat_moteur(self):
         if self.app.etat_moteur == Moteur.MARCHE:
             self.app.label_moteur_marche.config(bg="#DAF7DB")
@@ -138,12 +144,10 @@ class InfosManager:
             self.app.label_moteur_marche.config(bg="white")
             self.app.label_moteur_arret.config(bg="#FFDBDF")
 
-    # Pour utiliser: self.set_etat_moteur(Moteur.MARCHE)
     def set_etat_moteur(self, etat):
         self.app.etat_moteur = etat
         self.update_etat_moteur()
 
-    # Gestion des couleurs pour direction
     def update_direction(self):
         if self.app.etat_moteur == Moteur.ARRET:
             self.app.label_direction_gauche.config(bg="white")
@@ -157,7 +161,6 @@ class InfosManager:
             self.app.label_direction_gauche.config(bg="white")
             self.app.label_direction_droite.config(bg="#E4E5FF")
 
-    # Pour utiliser: self.set_direction(Direction.GAUCHE)
     def set_direction(self, direction):
         self.app.direction = direction
         self.update_direction()
