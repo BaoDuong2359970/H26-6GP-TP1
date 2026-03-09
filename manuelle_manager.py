@@ -48,7 +48,6 @@ class ManuelleManager:
             font=("Arial", 15)
         ).pack(side="left")
 
-        # Message d'erreur
         self.app.label_erreur_entry = tk.Label(
             manuelle_frame,
             text="",
@@ -58,7 +57,6 @@ class ManuelleManager:
         )
         self.app.label_erreur_entry.pack()
 
-        # Bouttons pour manuelle
         self.app.btn_ouvrir = tk.Button(
             bottom_row,
             text="Ouvrir la porte",
@@ -82,8 +80,6 @@ class ManuelleManager:
         self.app.btn_fermer.pack(side="left", padx=10)
 
     def lire_valeur_manuelle(self):
-        texte = self.app.manuelle_input_var.get()
-
         try:
             valeur = float(self.app.manuelle_input_var.get())
 
@@ -92,7 +88,7 @@ class ManuelleManager:
                 return valeur
             else:
                 self.app.label_erreur_entry.config(text="La valeur doit être entre 0 et 100")
-            return None
+                return None
 
         except ValueError:
             self.app.label_erreur_entry.config(text="Veuillez entrer un nombre valide")
@@ -105,24 +101,21 @@ class ManuelleManager:
         valeur = self.lire_valeur_manuelle()
 
         if valeur is not None:
-            self.app.etat_moteur = Moteur.MARCHE
-            self.app.infos_manager.update_etat_moteur()
-
             self.app.ouverture_actuelle = valeur
             self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
             self.app.dessiner_ouverture(self.app.ouverture_actuelle)
+            self.app.capteurs_manager.move_to_manual_percent(valeur)
 
     def fermer_porte_manuelle(self):
         if self.app.mode != Mode.MANUELLE:
             return
-        
-        self.app.label_erreur_entry.config(text="")
 
+        self.app.label_erreur_entry.config(text="")
         self.app.ouverture_actuelle = 0
         self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
         self.app.dessiner_ouverture(self.app.ouverture_actuelle)
+        self.app.capteurs_manager.move_to_manual_percent(0)
 
-    # Si pas mode manuelle, disable le entry et les boutons pour manuelle
     def update_controle(self):
         if self.app.mode == Mode.MANUELLE:
             self.app.entry_manuelle.config(state="normal")

@@ -1,103 +1,286 @@
 import tkinter as tk
+import time
+import board
+import adafruit_dht
+import RPi.GPIO as GPIO
+from gpiozero import OutputDevice
+from enums import Mode
+
 
 class CapteursManager:
+
     def __init__(self, app):
         self.app = app
 
+        # Pins utilisés
+        self.DHT_PIN = board.D4
+        self.LDR_PIN = 12
+        self.TRIG_PIN = 23
+        self.ECHO_PIN = 24
+
+        # Moteur pas à pas
+        self.motor_pins = (6, 27, 5, 25)
+        self.motors = [OutputDevice(pin) for pin in self.motor_pins]
+        self.seq = [
+            [1, 0, 0, 0],
+            [1, 1, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 1, 0],
+            [0, 0, 1, 0],
+            [0, 0, 1, 1],
+            [0, 0, 0, 1],
+            [1, 0, 0, 1]
+        ]
+
+        # Réglages moteur
+        self.STEP_DELAY = 0.002
+        self.STEPS_PER_CYCLE = 40
+
+        self.TOLERANCE_CM = 0.5
+
+        self.AUTO_DISTANCE_CLOSED = 2.1
+        self.AUTO_DISTANCE_OPEN = 11.0
+
+        # Manuelle: 2.1 = 0% et 10.5 = 100%
+        self.MANUAL_DISTANCE_CLOSED = 2.1
+        self.MANUAL_DISTANCE_OPEN = 10.5
+
+        self.LDR_DARK = 5000
+        self.LDR_BRIGHT = 50
+
+        self.dht = adafruit_dht.DHT11(self.DHT_PIN, use_pulseio=False)
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+
+        GPIO.setup(self.TRIG_PIN, GPIO.OUT)
+        GPIO.setup(self.ECHO_PIN, GPIO.IN)
+        GPIO.output(self.TRIG_PIN, False)
+
+        time.sleep(1)
+
     def creer_donnees(self):
-        donnees_frame = self.app.left_frame
-        donnees_frame = tk.Frame(donnees_frame, bg="white")
-        donnees_frame.pack(pady=20)
+        frame = tk.Frame(self.app.left_frame, bg="white")
+        frame.pack(pady=20)
 
-        # Température
-        temp_row = tk.Frame(donnees_frame, bg="white")
-        temp_row.pack(anchor="w")
+        tk.Label(frame, text="Température interne ambiante:", font=("Arial", 15, "bold"), bg="white").pack(anchor="w")
+        tk.Label(frame, textvariable=self.app.temperature_var, font=("Arial", 15), bg="white").pack(anchor="w")
 
-        tk.Label(
-            temp_row,
-            text="Température interne ambiante:",
-            font=("Arial", 15, "bold"),
-            bg="white"
-        ).pack(side="left")
+        tk.Label(frame, text="Intensité lumineuse:", font=("Arial", 15, "bold"), bg="white").pack(anchor="w")
+        tk.Label(frame, textvariable=self.app.luminosite_var, font=("Arial", 15), bg="white").pack(anchor="w")
 
-        tk.Label(
-            temp_row,
-            textvariable=self.app.temperature_var,
-            font=("Arial", 15),
-            bg="white"
-        ).pack(side="left")
+        tk.Label(frame, text="Ouverture automatique:", font=("Arial", 15, "bold"), bg="white").pack(anchor="w")
+        tk.Label(frame, textvariable=self.app.ouverture_auto_var, font=("Arial", 15), bg="white").pack(anchor="w")
 
-        # Luminosité
-        lumi_row = tk.Frame(donnees_frame, bg="white")
-        lumi_row.pack(anchor="w")
+    def clamp(self, value, vmin, vmax):
+        return max(vmin, min(value, vmax))
 
-        tk.Label(
-            lumi_row,
-            text="Intensité lumineuse à l'interne:",
-            font=("Arial", 15, "bold"),
-            bg="white"
-        ).pack(side="left")
+    def map_value(self, x, in_min, in_max, out_min, out_max):
+        if in_max == in_min:
+            return out_min
+        return out_min + (x - in_min) * (out_max - out_min) / (in_max - in_min)
 
-        tk.Label(
-            lumi_row,
-            textvariable=self.app.luminosite_var,
-            font=("Arial", 15),
-            bg="white"
-        ).pack(side="left")
+    def lire_temperature_humidite(self):
+        try:
+            return self.dht.temperature, self.dht.humidity
+        except Exception:
+            return None, None
 
-        # Ouverture
-        ouvert_row = tk.Frame(donnees_frame, bg="white")
-        ouvert_row.pack(anchor="w")
+    def lire_luminosite_brute(self):
+        count = 0
 
-        tk.Label(
-            ouvert_row,
-            text="Ouverture de la porte automatique:",
-            font=("Arial", 15, "bold"),
-            bg="white"
-        ).pack(side="left")
+        GPIO.setup(self.LDR_PIN, GPIO.OUT)
+        GPIO.output(self.LDR_PIN, GPIO.LOW)
+        time.sleep(0.1)
 
-        tk.Label(
-            ouvert_row,
-            textvariable=self.app.ouverture_auto_var,
-            font=("Arial", 15),
-            bg="white"
-        ).pack(side="left")
+        GPIO.setup(self.LDR_PIN, GPIO.IN)
 
+        timeout = time.time() + 0.2
+        while GPIO.input(self.LDR_PIN) == GPIO.LOW:
+            count += 1
+            if time.time() > timeout:
+                break
+
+        return count
+
+    def lire_luminosite(self):
+        raw = self.lire_luminosite_brute()
+
+        if self.LDR_DARK == self.LDR_BRIGHT:
+            return 0.0
+
+        pct = (self.LDR_DARK - raw) * 100.0 / (self.LDR_DARK - self.LDR_BRIGHT)
+        return round(self.clamp(pct, 0, 100), 1)
+
+    def lire_distance(self):
+        values = []
+
+        for _ in range(5):
+            GPIO.output(self.TRIG_PIN, True)
+            time.sleep(0.00001)
+            GPIO.output(self.TRIG_PIN, False)
+
+            start = time.time()
+            end = time.time()
+
+            timeout = time.time() + 0.03
+            while GPIO.input(self.ECHO_PIN) == 0:
+                start = time.time()
+                if start > timeout:
+                    return None
+
+            timeout = time.time() + 0.03
+            while GPIO.input(self.ECHO_PIN) == 1:
+                end = time.time()
+                if end > timeout:
+                    return None
+
+            distance = (end - start) * 17150
+            values.append(distance)
+            time.sleep(0.01)
+
+        return round(sum(values) / len(values), 1)
+
+    # MOTEUR
+    def set_step(self, step):
+        for i in range(4):
+            if step[i]:
+                self.motors[i].on()
+            else:
+                self.motors[i].off()
+
+    def motor_off(self):
+        for motor in self.motors:
+            motor.off()
+
+    def rotate_open(self):
+        for _ in range(self.STEPS_PER_CYCLE):
+            for step in self.seq:
+                self.set_step(step)
+                time.sleep(self.STEP_DELAY)
+
+    def rotate_close(self):
+        for _ in range(self.STEPS_PER_CYCLE):
+            for step in reversed(self.seq):
+                self.set_step(step)
+                time.sleep(self.STEP_DELAY)
+
+    def control_once(self, target_distance, current_distance):
+        if current_distance is None:
+            self.motor_off()
+            return "STOP"
+
+        if current_distance < target_distance - self.TOLERANCE_CM:
+            self.rotate_open()
+            self.motor_off()
+            return "OPEN"
+        elif current_distance > target_distance + self.TOLERANCE_CM:
+            self.rotate_close()
+            self.motor_off()
+            return "CLOSE"
+        else:
+            self.motor_off()
+            return "STOP"
+
+    # ALGO AUTO
     def calculer_ouverture(self, temperature, luminosite):
-        # Délai
         k = 0.5
-
-        # Ouverture basé sur température
         ouverture = 5 * (temperature - 20)
-        ouverture = max(0, min(100, ouverture)) # Assurer valeur entre 0% et 100%
+        ouverture = self.clamp(ouverture, 0, 100)
 
-        # Ouverture avec luminosité
         if luminosite > 60:
-            facteur = 1 - k * (luminosite - 60) / 40
-            ouverture *= facteur
+            ouverture = ouverture * (1 - k * (luminosite - 60) / 40)
 
-        ouverture = max(0, min(100, ouverture))
+        return self.clamp(ouverture, 0, 100)
 
-        return ouverture
+    def percent_to_auto_distance(self, percent):
+        return self.AUTO_DISTANCE_CLOSED + (percent / 100.0) * (
+            self.AUTO_DISTANCE_OPEN - self.AUTO_DISTANCE_CLOSED
+        )
+
+    # ALGO MANUEL
+    def percent_to_manual_distance(self, percent):
+        percent = self.clamp(percent, 0, 100)
+        return self.MANUAL_DISTANCE_CLOSED + (percent / 100.0) * (
+            self.MANUAL_DISTANCE_OPEN - self.MANUAL_DISTANCE_CLOSED
+        )
+
+    def move_to_manual_percent(self, target_percent):
+        target_percent = self.clamp(target_percent, 0, 100)
+        target_distance = self.percent_to_manual_distance(target_percent)
+
+        self.app.ouverture_actuelle = target_percent
+        self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
+        self.app.dessiner_ouverture(self.app.ouverture_actuelle)
+
+        while True:
+            distance = self.lire_distance()
+
+            if distance is None:
+                self.motor_off()
+                return
+
+            action = self.control_once(target_distance, distance)
+
+            self.app.distance_var.set(f"{distance} cm")
+            self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
+            self.app.dessiner_ouverture(self.app.ouverture_actuelle)
+            self.app.parent.update_idletasks()
+
+            print("--------------------------------")
+            print("Current distance:", distance, "cm")
+            print("Target distance :", round(target_distance, 2), "cm")
+            print("Motor           :", action)
+
+            if action == "STOP":
+                return
+
+            time.sleep(0.1)
+
+    def calculer_pourcentage_ouverture_reelle(self, distance):
+        if distance is None:
+            return self.app.ouverture_actuelle
+
+        if self.app.mode == Mode.MANUELLE:
+            closed = self.MANUAL_DISTANCE_CLOSED
+            opened = self.MANUAL_DISTANCE_OPEN
+        else:
+            closed = self.AUTO_DISTANCE_CLOSED
+            opened = self.AUTO_DISTANCE_OPEN
+
+        pct = self.map_value(distance, closed, opened, 0, 100)
+        return round(self.clamp(pct, 0, 100), 1)
+
+    def nettoyer(self):
+        self.motor_off()
+        GPIO.cleanup()
 
     def update_donnees(self):
-        temperature = 30 # TODO: appele lire_temperature
-        luminosite = 80 # TODO: appele lire_luminosite
+        temperature, humidite = self.lire_temperature_humidite()
+        luminosite = self.lire_luminosite()
+        distance = self.lire_distance()
 
-        self.app.temperature_var.set(f"{temperature} °C")
-        self.app.luminosite_var.set(f"{luminosite} (0-100)")
+        if temperature is not None:
+            self.app.temperature_var.set(f"{temperature} °C")
+        else:
+            self.app.temperature_var.set("-- °C")
 
-        if self.app.mode.name == "AUTOMATIQUE":
-            self.app.ouverture_actuelle = self.calculer_ouverture(temperature, luminosite)
+        self.app.luminosite_var.set(f"{luminosite:.1f} (0-100)")
+        self.app.distance_var.set(f"{distance} cm" if distance is not None else "-- cm")
+        self.app.humidite = humidite
+
+        ouverture_reelle = self.calculer_pourcentage_ouverture_reelle(distance)
+        self.app.ouverture_reelle = ouverture_reelle
+
+        if self.app.mode == Mode.AUTOMATIQUE and temperature is not None and distance is not None:
+            cible = self.calculer_ouverture(temperature, luminosite)
+            target_distance = self.percent_to_auto_distance(cible)
+
+            self.app.ouverture_actuelle = cible
             self.app.ouverture_auto_var.set(f"{self.app.ouverture_actuelle:.1f} %")
+            self.control_once(target_distance, distance)
 
         self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
         self.app.dessiner_ouverture(self.app.ouverture_actuelle)
 
-        self.app.parent.after(1000, self.update_donnees)
-
-
-    # -------- Lire les données --------
-    # def lire_temperature():
-
-    # def lire_luminosite():
+        self.app.parent.after(300, self.update_donnees)
