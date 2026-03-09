@@ -160,7 +160,7 @@ class CapteursManager:
         self.app.etat_moteur = Moteur.MARCHE
         self.app.infos_manager.update_etat_moteur()
 
-        for _ in range(self.STEPS_PER_CYCLE):
+        for cycle in range(self.STEPS_PER_CYCLE):
             for step in self.seq:
                 self.set_step(step)
                 time.sleep(self.STEP_DELAY)
