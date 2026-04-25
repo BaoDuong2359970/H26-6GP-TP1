@@ -6,11 +6,18 @@ import RPi.GPIO as GPIO
 from gpiozero import OutputDevice
 from enums import Mode, Moteur
 from infos import InfosManager
+from azure.iot.device import IoTHubDeviceClient, Message
+import json, uuid, time
 
 class CapteursManager:
 
     def __init__(self, app):
         self.app = app
+
+        # Connection 
+        self.conn_str = "HostName=internetobjethub.azure-devices.net;DeviceId=collecteur_temp;SharedAccessKey=qIL8KPAdSPBGenuV15iSpZX62T4K1zHzvGGFy9/SGmY="
+        self.client = IoTHubDeviceClient.create_from_connection_string(self.conn_str)
+        self.client.connect()
 
         # Pins utilisés
         self.DHT_PIN = board.D4
@@ -293,3 +300,24 @@ class CapteursManager:
         self.app.dessiner_ouverture(self.app.ouverture_actuelle)
 
         self.app.parent.after(300, self.update_donnees)
+
+        data = {
+            "id_message": str(uuid.uuid4()),
+            "id_objet": "porte1",
+            "date": int(time.time()),
+            "status": "envoye",
+            "temperature": temperature,
+            "luminosite": luminosite,
+            "ouverture_auto": self.app.ouverture_actuelle,
+            "mode": self.app.mode.value,
+            "ouverture_reelle": ouverture_reelle,
+            "erreur": "non",
+            "avertissement": ""
+        }
+
+        msg = Message(json.dumps(data))
+        msg.content_encoding = "utf-8"
+        msg.content_type = "application/json"
+
+        self.client.send_message(msg)
+        print("envoyé :", data)
