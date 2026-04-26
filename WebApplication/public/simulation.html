@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/simstyles.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Quicksand" />
+</head>
+<body>
+    <div class="top-nav">
+        <button onclick="scrollToSection('simulation')">Simulation</button>
+        <span>|</span>
+        <button onclick="scrollToSection('historique')">Historique</button>
+    </div>
+
+    <h1 id="simulation">
+        Contrôle d'une porte d'aération d'une serre
+    </h1>
+
+    <div class="container">
+        <div class="top-row">
+            <div class="left-section">
+                <h3>
+                    Informations sur les senseurs
+                </h3>
+               
+                <div class="info-box">
+                    <div class="info-section">
+                        <h4>
+                            Température
+                        </h4>
+                        <p>
+                            30 °C
+                        </p>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h4>
+                            Luminosité
+                        </h4>
+                        <p>
+                            80 (0-100)
+                        </p>
+                    </div>
+                
+                    <div class="info-section">
+                        <h4>
+                            Ouverture automatique
+                        </h4>
+                        <p>
+                            37%
+                        </p>
+                    </div>
+
+                    <div class="info-section">
+                        <h4>
+                            Mode de contrôle
+                        </h4>
+                        <p>
+                            Automique
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+            
+
+            <div class="right-section">
+                <h3>
+                    Informations sur la porte et le moteur
+                </h3>
+
+                <div class="info-box">
+                    <div class="info-section">
+                        <h4>
+                            Statut du moteur
+                        </h4>
+                        <p>
+                            En marche
+                        </p>
+                    </div>
+
+                    <div class="info-section">
+                        <h4>
+                            Direction du moteur
+                        </h4>
+                        <p>
+                            Gauche
+                        </p>
+                    </div>
+
+                    <div class="info-section">
+                        <h4>
+                            Distance
+                        </h4>
+                        <p>
+                            22 cm
+                        </p>
+                    </div>
+
+                    <div class="info-section">
+                        <h4>
+                            Vitesse
+                        </h4>
+                        <p>
+                            20 tours/min
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+
+        <div class="bottom-row">
+            <div class="door-visual">
+                <h3>Ouverture <br>
+                    automatique</h3>
+                <div class="door-container">
+                    <svg width="300" height="400" viewBox="0 0 150 215">
+                        <!-- Door outline -->
+                        <rect x="30" y="20" width="90" height="188" fill="none" stroke="#1F331A" stroke-width="3" rx="7" ry="5"/>
+                        
+                        <!-- Bars (10 sections) -->
+                        <rect x="35" y="25" width="80" height="16" fill="#4B6C43" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-1"/>
+                        <rect x="35" y="43" width="80" height="16" fill="#4B6C43" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-2"/>
+                        <rect x="35" y="61" width="80" height="16" fill="#4B6C43" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-3"/>
+                        <rect x="35" y="79" width="80" height="16" fill="#4B6C43" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-4"/>
+                        <rect x="35" y="97" width="80" height="16" fill="#4B6C43" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-5"/>
+                        <rect x="35" y="115" width="80" height="16" fill="#4B6C43" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-6"/>
+                        <rect x="35" y="133" width="80" height="16" fill="#4B6C43" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-7"/>
+                        <rect x="35" y="151" width="80" height="16" fill="#4B6C43" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-8"/>
+                        <rect x="35" y="169" width="80" height="16" fill="#4B6C43" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-9"/>
+                        <rect x="35" y="187" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-10"/>
+                    </svg>
+                </div>
+                <div class="opening-percentage">90%</div>
+            </div>
+
+            <div class="manual-control">
+                <h4>Contrôle manuel</h4>
+
+                <div class="manual-info">
+                    <div class="manual-header">
+                        <label for="manual-input">Manuelle</label>
+                        <input type="number" id="manual-input" min="0" max="100" step="1" placeholder="0">
+                        <span>%</span>
+                    </div>
+                    <div id="error-message" class="error"></div>
+                    <div class="manual-buttons">
+                        <button id="open-door" class="btn-open">Ouvrir la porte</button>
+                        <button id="close-door" class="btn-close">Fermer la porte</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="historique-section" id="historique">
+            <h3>
+                Historique des données
+            </h3>
+
+            <table class="table"> 
+                <thead class="table-head"> 
+                    <tr> 
+                        <th class="th">
+                            Date
+                        </th> 
+                        <th class="th">
+                            Statut
+                        </th> 
+                        <th class="th">
+                            Direction
+                        </th> 
+                        <th class="th">
+                            Distance
+                        </th> 
+                        <th class="th">
+                            Vitesse
+                        </th> 
+                        <th class="th-ouverture">
+                            Ouverture
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="table-body"> 
+                    <tr class="table-row"> 
+                        <td class="td">
+                            2026-04-20
+                        </td> 
+                        <td class="td"> 
+                            <span class="badge badge-open">
+                                En marche
+                            </span> 
+                        </td> 
+                        <td class="td">
+                            Gauche
+                        </td> 
+                        <td class="td">
+                            10 cm
+                        </td> 
+                        <td class="td">
+                            45 tours/min
+                        </td> 
+                        <td class="td-ouverture">
+                            37%
+                        </td> 
+                    </tr> 
+                    <tr class="table-row"> 
+                        <td class="td">
+                            2026-04-19
+                        </td> 
+                        <td class="td"> 
+                            <span class="badge badge-closed">
+                                En arrêt
+                            </span> 
+                        </td> 
+                        <td class="td">
+                            Droit
+                        </td> 
+                        <td class="td">
+                            30 cm
+                        </td> 
+                        <td class="td">
+                            30 tours/min
+                        </td> 
+                        <td class="td-ouverture">
+                            0%
+                        </td> 
+                    </tr> 
+                    <tr class="table-row"> 
+                        <td class="td">
+                            2026-04-18
+                        </td> 
+                        <td class="td"> 
+                            <span class="badge badge-open">
+                                En marche
+                            </span> 
+                        </td> 
+                        <td class="td">
+                            Gauche
+                        </td> 
+                        <td class="td">
+                            5 cm
+                        </td> 
+                        <td class="td">
+                            60 tours/min
+                        </td> 
+                        <td class="td-ouverture">
+                            60%
+                        </td> 
+                    </tr> 
+                    <tr class="table-row"> 
+                        <td class="td">
+                            2026-04-17
+                        </td> 
+                        <td class="td"> 
+                            <span class="badge badge-closed">
+                                En arrêt
+                            </span> 
+                        </td>
+                        <td class="td">
+                            Droite
+                        </td> 
+                        <td class="td">
+                            20 cm
+                        </td> 
+                        <td class="td">
+                            50 tours/min
+                        </td> 
+                        <td class="td-ouverture">
+                            0%
+                        </td> 
+                    </tr> 
+                </tbody> 
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-name">
+            <h3>
+                Simulateur Greenhouse
+            </h3>
+            <p>
+                Par Elena Duong & Alicia Achour
+            </p>
+            <p>
+                H26-6GP Projet final
+            </p>
+        </div>
+        <div class="footer-contact">
+            <h4>
+                Contact
+            </h4>
+            <p>
+                Courriel: <u>simgreenhouse@gmail.com</u>
+            </p>
+            <p>
+                Tel: (514) 123-4567
+            </p>
+        </div>
+    </div>
+</html>
+
+
+<script>
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({
+        behavior: 'smooth'
+    });
+}
+</script>

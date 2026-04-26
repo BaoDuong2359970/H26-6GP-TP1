@@ -22,6 +22,9 @@ class Application:
         self.right_frame = tk.Frame(self.main_frame, bg="white")
         self.right_frame.pack(side="left", padx=20)
 
+        self.bottom_frame = tk.Frame(self.parent, bg="white")
+        self.bottom_frame.pack(pady=20)
+
         # Variables
         self.temperature_var = tk.StringVar()
         self.luminosite_var = tk.StringVar()
@@ -33,6 +36,9 @@ class Application:
 
         self.distance_var = tk.StringVar()
         self.manuelle_input_var = tk.StringVar(value="0")
+
+        # Variables
+        self.alerte_var = tk.StringVar()
 
         # Enums
         self.mode = Mode.AUTOMATIQUE
@@ -55,6 +61,7 @@ class Application:
         self.manuelle_manager.creer_manuelle()
         self.creer_ouverture_visuelle()
         self.infos_manager.creer_infos()
+        self.ajouter_alerte()
 
         self.mode_manager.switch_mode(self.mode)
         self.infos_manager.update_etat_moteur()
@@ -139,3 +146,18 @@ class Application:
                 fill=couleur,
                 outline=""
             )
+
+    def ajouter_alerte(self):
+        alert_message = "Alerte: " + self.get_alert()
+        self.alerte_var.set(alert_message)
+        
+        alerte_label = tk.Label(
+            self.bottom_frame,
+            textvariable=self.alerte_var,
+            bg="white",
+            font=("Arial", 12)
+        )
+        alerte_label.pack(pady=10, anchor='center')
+
+    def get_alert(self):
+        return "Default alert message"
