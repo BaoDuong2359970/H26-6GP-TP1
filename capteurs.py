@@ -314,7 +314,7 @@ class CapteursManager:
 
         data = {
             "id_message": str(uuid.uuid4()),
-            "id_objet": "porte1",
+            "id_objet": "objectId123",
             "date": int(time.time()),
             "status": "envoye",
             "temperature": temperature,
