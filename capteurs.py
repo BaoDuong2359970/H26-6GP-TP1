@@ -8,16 +8,27 @@ from enums import Mode, Moteur
 from infos import InfosManager
 from azure.iot.device import IoTHubDeviceClient, Message
 import json, uuid, time
+import mysql.connector
 
 class CapteursManager:
 
     def __init__(self, app):
         self.app = app
 
-        # Connection 
+        # Connection  internet hub
         self.conn_str = "HostName=internetobjethub.azure-devices.net;DeviceId=collecteur_temp;SharedAccessKey=qIL8KPAdSPBGenuV15iSpZX62T4K1zHzvGGFy9/SGmY="
         self.client = IoTHubDeviceClient.create_from_connection_string(self.conn_str)
         self.client.connect()
+
+        #Connection local database 
+        self.db = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="root",
+            database="iotdb"
+        )
+
+        self.cursor = self.db.cursor()
 
         # Pins utilisés
         self.DHT_PIN = board.D4
@@ -303,7 +314,7 @@ class CapteursManager:
 
         data = {
             "id_message": str(uuid.uuid4()),
-            "id_objet": "porte1",
+            "id_objet": "objectId123",
             "date": int(time.time()),
             "status": "envoye",
             "temperature": temperature,
@@ -321,3 +332,18 @@ class CapteursManager:
 
         self.client.send_message(msg)
         print("envoyé :", data)
+
+
+        self.cursor.execute("""
+        INSERT INTO data (temperature, luminosite, ouverture, mode, status, date)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """, (
+            temperature,
+            luminosite,
+            self.app.ouverture_actuelle,
+            self.app.mode.value,
+            "envoye",
+            int(time.time())
+        ))
+
+        self.db.commit()
