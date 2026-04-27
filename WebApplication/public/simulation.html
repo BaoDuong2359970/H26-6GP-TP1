@@ -181,16 +181,19 @@
             document.getElementById("ouverture").textContent = Math.round(latest.Body.ouverture_auto ?? 0) + "%";
             document.getElementById("mode").textContent = latest.Body.mode ?? "--";
 
+            // TABLE
+            const table = document.getElementById("historique-body");
+
             data.slice(0, 10).forEach(item => {
-            const row = `
-                <tr>
-                    <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
-                    <td>${item.Body.mode}</td>
-                    <td>${item.Body.distance ?? "--"} cm</td>
-                    <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
-                </tr>
-            `;
-            table.innerHTML += row;
+                const row = `
+                    <tr>
+                        <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
+                        <td>${item.Body.mode}</td>
+                        <td>${item.Body.distance ?? "--"} cm</td>
+                        <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
+                    </tr>
+                `;
+                table.innerHTML += row;
             });
         });
 
