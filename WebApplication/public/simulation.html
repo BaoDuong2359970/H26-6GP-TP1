@@ -259,7 +259,15 @@ document.getElementById("open-door").onclick = () => {
 document.getElementById("close-door").onclick = () => {
   sendCommand("close");
 };
-</script>
 
+document.getElementById("manual-input").addEventListener("change", (e) => {
+  const value = parseInt(e.target.value);
+
+  if (!isNaN(value)) {
+    sendCommand("set", value);
+  }
+});
+
+</script>
 </body>
 </html>

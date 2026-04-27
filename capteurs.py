@@ -85,14 +85,14 @@ class CapteursManager:
             data = json.loads(message.data.decode())
 
             if data["command"] == "open":
-                self.move_to_manual_percent(100)
+                self.app.parent.after(0, lambda: self.move_to_manual_percent(100))
 
             elif data["command"] == "close":
-                self.move_to_manual_percent(0)
+                self.app.parent.after(0, lambda: self.move_to_manual_percent(0))
 
             elif data["command"] == "set":
                 value = data.get("value", 0)
-                self.move_to_manual_percent(value)
+                self.app.parent.after(0, lambda: self.move_to_manual_percent(value))
 
         except Exception as e:
             print("Erreur commande:", e)
