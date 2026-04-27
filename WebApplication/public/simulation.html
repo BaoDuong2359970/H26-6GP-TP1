@@ -30,52 +30,28 @@
                         <h4>
                             Température
                         </h4>
-<<<<<<< HEAD
-                        <p id="temperature-value">
-                            -- °C
-                        </p>
-=======
                         <p id="temperature">-- °C</p>
->>>>>>> 5f58682baea6717c37f497e4ffd6b025116d4efe
                     </div>
                     
                     <div class="info-section">
                         <h4>
                             Luminosité
                         </h4>
-<<<<<<< HEAD
-                        <p id="luminosite-value">
-                            -- (0-100)
-                        </p>
-=======
                         <p id="luminosite">--</p>
->>>>>>> 5f58682baea6717c37f497e4ffd6b025116d4efe
                     </div>
                 
                     <div class="info-section">
                         <h4>
                             Ouverture automatique
                         </h4>
-<<<<<<< HEAD
-                        <p id="ouverture-auto-value">
-                            -- %
-                        </p>
-=======
                         <p id="ouverture">--%</p>
->>>>>>> 5f58682baea6717c37f497e4ffd6b025116d4efe
                     </div>
 
                     <div class="info-section">
                         <h4>
                             Mode de contrôle
                         </h4>
-<<<<<<< HEAD
-                        <p id="mode-value">
-                            --
-                        </p>
-=======
                         <p id="mode">--</p>
->>>>>>> 5f58682baea6717c37f497e4ffd6b025116d4efe
                     </div>
                 </div>
                 
@@ -232,46 +208,42 @@
         </div>
     </div>
 
-<<<<<<< HEAD
-
-=======
     <script>
-function scrollToSection(id) {
-    document.getElementById(id).scrollIntoView({
-        behavior: 'smooth'
-    });
-}
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
 
-fetch("/api/data")
-  .then(res => res.json())
-  .then(data => {
-    if (!data.length) return;
+        fetch("/api/data")
+        .then(res => res.json())
+        .then(data => {
+            if (!data.length) return;
 
-    const latest = data[0];
+            const latest = data[0];
 
-    // TOP INFO
-    document.getElementById("temperature").textContent = (latest.Body.temperature ?? "--") + " °C";
-    document.getElementById("luminosite").textContent = latest.Body.luminosite ?? "--";
-    document.getElementById("ouverture").textContent = Math.round(latest.Body.ouverture_auto ?? 0) + "%";
-    document.getElementById("mode").textContent = latest.Body.mode ?? "--";
-    // TABLE
-    const table = document.getElementById("historique-body");
+            // TOP INFO
+            document.getElementById("temperature").textContent = (latest.Body.temperature ?? "--") + " °C";
+            document.getElementById("luminosite").textContent = latest.Body.luminosite ?? "--";
+            document.getElementById("ouverture").textContent = Math.round(latest.Body.ouverture_auto ?? 0) + "%";
+            document.getElementById("mode").textContent = latest.Body.mode ?? "--";
+            // TABLE
+            const table = document.getElementById("historique-body");
 
-    data.slice(0, 10).forEach(item => {
-      const row = `
-        <tr>
-            <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
-            <td>${item.Body.status}</td>
-            <td>${item.Body.mode}</td>
-            <td>${item.Body.distance ?? "--"} cm</td>
-            <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
-        </tr>
-      `;
-      table.innerHTML += row;
-    });
-  });
-</script>
+            data.slice(0, 10).forEach(item => {
+            const row = `
+                <tr>
+                    <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
+                    <td>${item.Body.status}</td>
+                    <td>${item.Body.mode}</td>
+                    <td>${item.Body.distance ?? "--"} cm</td>
+                    <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
+                </tr>
+            `;
+            table.innerHTML += row;
+            });
+        });
+    </script>
 
 </body>
 </html>
->>>>>>> 5f58682baea6717c37f497e4ffd6b025116d4efe
