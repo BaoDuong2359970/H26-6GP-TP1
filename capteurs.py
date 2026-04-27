@@ -328,6 +328,7 @@ class CapteursManager:
             "ouverture_auto": self.app.ouverture_actuelle,
             "mode": self.app.mode.value,
             "ouverture_reelle": ouverture_reelle,
+            "distance": self.distance,
             "erreur": "non",
             "avertissement": ""
         }
