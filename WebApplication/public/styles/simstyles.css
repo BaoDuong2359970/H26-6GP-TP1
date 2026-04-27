@@ -103,8 +103,8 @@ h4 {
 }
 
 .info-box {
-    height: 130px;
-    width: 370px;
+    height: 170px;
+    width: 400px;
     background: #f5fff0;
     border-radius: 12px;
     padding: 20px;
@@ -253,8 +253,12 @@ h4 {
 }
 
 .table {
-    width: 80%;
+    width: 70%;
     border-collapse: collapse;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #ccc;
 }
 
 /* Header */
@@ -367,3 +371,9 @@ h4 {
     margin-bottom: 5px;
     color: #ffffff;
 }
+
+.top-row {
+    display: flex;
+    flex-direction: column;
+}
+

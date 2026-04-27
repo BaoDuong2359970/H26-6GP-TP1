@@ -306,6 +306,7 @@ class CapteursManager:
         temperature, humidite = self.lire_temperature_humidite()
         luminosite = self.lire_luminosite()
         distance = self.lire_distance()
+        status_moteur = "En arrêt"
 
         if temperature is not None:
             self.app.temperature_var.set(f"{temperature} °C")
@@ -325,7 +326,12 @@ class CapteursManager:
 
             self.app.ouverture_actuelle = cible
             self.app.ouverture_auto_var.set(f"{self.app.ouverture_actuelle:.1f} %")
-            self.control_once(target_distance, distance)
+            status = self.control_once(target_distance, distance)
+
+            if status == "OPEN" or status == "CLOSE":
+                status_moteur = "En marche"
+            else:
+                status_moteur = "En arrêt"
 
         self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
         self.app.dessiner_ouverture(self.app.ouverture_actuelle)
@@ -336,7 +342,7 @@ class CapteursManager:
             "id_message": str(uuid.uuid4()),
             "id_objet": "objectId123",
             "date": int(time.time()),
-            "status": "envoye",
+            "status": status_moteur,
             "temperature": temperature,
             "luminosite": luminosite,
             "ouverture_auto": self.app.ouverture_actuelle,
@@ -356,15 +362,15 @@ class CapteursManager:
 
 
         self.cursor.execute("""
-            INSERT INTO data (temperature, luminosite, ouverture, distance, mode, status)
-            VALUES (%s, %s, %s, %s, %s, %s)
-            """, (
-        temperature,
-        luminosite,
-        self.app.ouverture_actuelle,
-        distance if distance is not None else 0,
-        self.app.mode.value,
-        "envoye"
-    ))
+        INSERT INTO data (temperature, luminosite, ouverture, mode, status, date)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """, (
+            temperature,
+            luminosite,
+            self.app.ouverture_actuelle,
+            self.app.mode.value,
+            status_moteur,
+            int(time.time())
+        ))
 
         self.db.commit()
