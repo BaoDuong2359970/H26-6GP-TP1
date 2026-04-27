@@ -67,21 +67,6 @@ app.get('/api/latest', async (req, res) => {
     }
 });
 
-app.get('/api/history', async (req, res) => {
-    try {
-        const [rows] = await db.query(`
-            SELECT temperature, luminosite, ouverture, mode, status, date
-            FROM data
-            ORDER BY date DESC
-        `);
-
-        res.json(rows);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error fetching history' });
-    }
-});
-
 // API
 app.get("/api/data", async (req, res) => {
   try {

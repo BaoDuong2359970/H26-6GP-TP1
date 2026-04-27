@@ -19,92 +19,6 @@
     </h1>
 
     <div class="container">
-        <div class="top-row">
-            <div class="left-section">
-                <h3>
-                    Informations sur les senseurs
-                </h3>
-               
-                <div class="info-box">
-                    <div class="info-section">
-                        <h4>
-                            Température
-                        </h4>
-                        <p id="temperature">-- °C</p>
-                    </div>
-                    
-                    <div class="info-section">
-                        <h4>
-                            Luminosité
-                        </h4>
-                        <p id="luminosite">--</p>
-                    </div>
-                
-                    <div class="info-section">
-                        <h4>
-                            Ouverture automatique
-                        </h4>
-                        <p id="ouverture">--%</p>
-                    </div>
-
-                    <div class="info-section">
-                        <h4>
-                            Mode de contrôle
-                        </h4>
-                        <p id="mode">--</p>
-                    </div>
-                </div>
-                
-            </div>
-            
-
-            <div class="right-section">
-                <h3>
-                    Informations sur la porte et le moteur
-                </h3>
-
-                <div class="info-box">
-                    <div class="info-section">
-                        <h4>
-                            Statut du moteur
-                        </h4>
-                        <p>
-                            En marche
-                        </p>
-                    </div>
-
-                    <div class="info-section">
-                        <h4>
-                            Direction du moteur
-                        </h4>
-                        <p>
-                            Gauche
-                        </p>
-                    </div>
-
-                    <div class="info-section">
-                        <h4>
-                            Distance
-                        </h4>
-                        <p>
-                            22 cm
-                        </p>
-                    </div>
-
-                    <div class="info-section">
-                        <h4>
-                            Vitesse
-                        </h4>
-                        <p>
-                            20 tours/min
-                        </p>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-
         <div class="bottom-row">
             <div class="door-visual">
                 <h3>Ouverture <br>
@@ -127,24 +41,79 @@
                         <rect x="35" y="187" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-10"/>
                     </svg>
                 </div>
-                <div class="opening-percentage" id="opening-percentage">
-                    -- %
-                </div>
+                <div class="opening-percentage">90%</div>
             </div>
 
-            <div class="manual-control">
-                <h4>Contrôle manuel</h4>
+            <div class="right-side">
+                <div class="top-row">
+                    <div class="left-section">
+                        <h3>
+                            Informations sur les senseurs
+                        </h3>
+                    
+                        <div class="info-box">
+                            <div class="info-section">
+                                <h4>
+                                    Température
+                                </h4>
+                                <p id="temperature-value">
+                                    -- °C
+                                </p>
+                            </div>
+                            
+                            <div class="info-section">
+                                <h4>
+                                    Luminosité
+                                </h4>
+                                <p id="luminosite-value">
+                                    -- (0-100)
+                                </p>
+                            </div>
+                        
+                            <div class="info-section">
+                                <h4>
+                                    Ouverture automatique
+                                </h4>
+                                <p>
+                                    37%
+                                </p>
+                            </div>
 
-                <div class="manual-info">
-                    <div class="manual-header">
-                        <label for="manual-input">Manuelle</label>
-                        <input type="number" id="manual-input" min="0" max="100" step="1" placeholder="0">
-                        <span>%</span>
+                            <div class="info-section">
+                                <h4>
+                                    Distance
+                                </h4>
+                                <p>
+                                    22 cm
+                                </p>
+                            </div>
+
+                            <div class="info-section">
+                                <h4>
+                                    Mode de contrôle
+                                </h4>
+                                <p>
+                                    Automique
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div id="error-message" class="error"></div>
-                    <div class="manual-buttons">
-                        <button id="open-door" class="btn-open">Ouvrir la porte</button>
-                        <button id="close-door" class="btn-close">Fermer la porte</button>
+
+                    <div class="right-section">
+                        <h3>Contrôle manuel</h3>
+
+                        <div class="manual-info">
+                            <div class="manual-header">
+                                <label for="manual-input">Manuelle</label>
+                                <input type="number" id="manual-input" min="0" max="100" step="1" placeholder="0">
+                                <span>%</span>
+                            </div>
+                            <div id="error-message" class="error"></div>
+                            <div class="manual-buttons">
+                                <button id="open-door" class="btn-open">Ouvrir la porte</button>
+                                <button id="close-door" class="btn-close">Fermer la porte</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -178,7 +147,96 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody id="historique-body"></tbody>
+                <tbody class="table-body"> 
+                    <tr class="table-row"> 
+                        <td class="td">
+                            2026-04-20
+                        </td> 
+                        <td class="td"> 
+                            <span class="badge badge-open">
+                                En marche
+                            </span> 
+                        </td> 
+                        <td class="td">
+                            Gauche
+                        </td> 
+                        <td class="td">
+                            10 cm
+                        </td> 
+                        <td class="td">
+                            45 tours/min
+                        </td> 
+                        <td class="td-ouverture">
+                            37%
+                        </td> 
+                    </tr> 
+                    <tr class="table-row"> 
+                        <td class="td">
+                            2026-04-19
+                        </td> 
+                        <td class="td"> 
+                            <span class="badge badge-closed">
+                                En arrêt
+                            </span> 
+                        </td> 
+                        <td class="td">
+                            Droit
+                        </td> 
+                        <td class="td">
+                            30 cm
+                        </td> 
+                        <td class="td">
+                            30 tours/min
+                        </td> 
+                        <td class="td-ouverture">
+                            0%
+                        </td> 
+                    </tr> 
+                    <tr class="table-row"> 
+                        <td class="td">
+                            2026-04-18
+                        </td> 
+                        <td class="td"> 
+                            <span class="badge badge-open">
+                                En marche
+                            </span> 
+                        </td> 
+                        <td class="td">
+                            Gauche
+                        </td> 
+                        <td class="td">
+                            5 cm
+                        </td> 
+                        <td class="td">
+                            60 tours/min
+                        </td> 
+                        <td class="td-ouverture">
+                            60%
+                        </td> 
+                    </tr> 
+                    <tr class="table-row"> 
+                        <td class="td">
+                            2026-04-17
+                        </td> 
+                        <td class="td"> 
+                            <span class="badge badge-closed">
+                                En arrêt
+                            </span> 
+                        </td>
+                        <td class="td">
+                            Droite
+                        </td> 
+                        <td class="td">
+                            20 cm
+                        </td> 
+                        <td class="td">
+                            50 tours/min
+                        </td> 
+                        <td class="td-ouverture">
+                            0%
+                        </td> 
+                    </tr> 
+                </tbody> 
             </table>
         </div>
     </div>
@@ -207,43 +265,13 @@
             </p>
         </div>
     </div>
-
-    <script>
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        fetch("/api/data")
-        .then(res => res.json())
-        .then(data => {
-            if (!data.length) return;
-
-            const latest = data[0];
-
-            // TOP INFO
-            document.getElementById("temperature").textContent = (latest.Body.temperature ?? "--") + " °C";
-            document.getElementById("luminosite").textContent = latest.Body.luminosite ?? "--";
-            document.getElementById("ouverture").textContent = Math.round(latest.Body.ouverture_auto ?? 0) + "%";
-            document.getElementById("mode").textContent = latest.Body.mode ?? "--";
-            // TABLE
-            const table = document.getElementById("historique-body");
-
-            data.slice(0, 10).forEach(item => {
-            const row = `
-                <tr>
-                    <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
-                    <td>${item.Body.status}</td>
-                    <td>${item.Body.mode}</td>
-                    <td>${item.Body.distance ?? "--"} cm</td>
-                    <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
-                </tr>
-            `;
-            table.innerHTML += row;
-            });
-        });
-    </script>
-
-</body>
 </html>
+
+
+<script>
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({
+        behavior: 'smooth'
+    });
+}
+</script>
