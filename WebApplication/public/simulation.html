@@ -202,4 +202,59 @@
         loadData();
         setInterval(loadData, 30000);
     </script>
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({
+        behavior: 'smooth'
+    });
+}
+
+fetch("/api/data")
+  .then(res => res.json())
+  .then(data => {
+    if (!data.length) return;
+
+    const latest = data[0];
+
+    // TOP INFO
+    document.getElementById("temperature").textContent = (latest.Body.temperature ?? "--") + " °C";
+    document.getElementById("luminosite").textContent = latest.Body.luminosite ?? "--";
+    document.getElementById("ouverture").textContent = Math.round(latest.Body.ouverture_auto ?? 0) + "%";
+    document.getElementById("mode").textContent = latest.Body.mode ?? "--";
+    // TABLE
+    const table = document.getElementById("historique-body");
+
+    data.slice(0, 10).forEach(item => {
+      const row = `
+        <tr>
+            <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
+            <td>${item.Body.status}</td>
+            <td>${item.Body.mode}</td>
+            <td>${item.Body.distance ?? "--"} cm</td>
+            <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
+        </tr>
+      `;
+      table.innerHTML += row;
+    });
+  });
+
+  function sendCommand(command, value = null) {
+  fetch("/api/command", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ command, value })
+  });
+}
+
+document.getElementById("open-door").onclick = () => {
+  sendCommand("open");
+};
+
+document.getElementById("close-door").onclick = () => {
+  sendCommand("close");
+};
+</script>
+
+</body>
 </html>
