@@ -19,6 +19,7 @@ class CapteursManager:
         self.conn_str = "HostName=internetobjethub.azure-devices.net;DeviceId=collecteur_temp;SharedAccessKey=qIL8KPAdSPBGenuV15iSpZX62T4K1zHzvGGFy9/SGmY="
         self.client = IoTHubDeviceClient.create_from_connection_string(self.conn_str)
         self.client.connect()
+        self.client.on_message_received = self.on_message_received
 
         #Connection local database 
         self.db = mysql.connector.connect(
@@ -82,6 +83,25 @@ class CapteursManager:
         GPIO.output(self.TRIG_PIN, False)
 
         time.sleep(1)
+
+    def on_message_received(self, message):
+        print("Commande reçue:", message.data)
+
+        try:
+            data = json.loads(message.data.decode())
+
+            if data["command"] == "open":
+                self.app.parent.after(0, lambda: self.move_to_manual_percent(100))
+
+            elif data["command"] == "close":
+                self.app.parent.after(0, lambda: self.move_to_manual_percent(0))
+
+            elif data["command"] == "set":
+                value = data.get("value", 0)
+                self.app.parent.after(0, lambda: self.move_to_manual_percent(value))
+
+        except Exception as e:
+            print("Erreur commande:", e)
 
     def creer_donnees(self):
         frame = tk.Frame(self.app.left_frame, bg="white")
@@ -351,7 +371,13 @@ class CapteursManager:
             "ouverture_auto": self.app.ouverture_actuelle,
             "mode": self.app.mode.value,
             "ouverture_reelle": ouverture_reelle,
+<<<<<<< HEAD
             "distance": distance
+=======
+            "distance": distance,
+            "erreur": "non",
+            "avertissement": ""
+>>>>>>> 24af00279b4d6a5133830f26c7005cfdb6824056
         }
 
         msg = Message(json.dumps(data))

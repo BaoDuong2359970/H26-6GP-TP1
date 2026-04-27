@@ -184,22 +184,45 @@
             // TABLE
             const table = document.getElementById("historique-body");
 
-            table.innerHTML = ""
-
             data.slice(0, 10).forEach(item => {
-            const row = `
-                <tr>
-                    <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
-                    <td>${item.Body.mode}</td>
-                    <td>${item.Body.distance ?? "--"} cm</td>
-                    <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
-                </tr>
-            `;
-            table.innerHTML += row;
+                const row = `
+                    <tr>
+                        <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
+                        <td>${item.Body.mode}</td>
+                        <td>${item.Body.distance ?? "--"} cm</td>
+                        <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
+                    </tr>
+                `;
+                table.innerHTML += row;
             });
         });
 
-        loadData();
-        setInterval(loadData, 30000);
+        function sendCommand(command, value = null) {
+            fetch("/api/command", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ command, value })
+            });
+            }
+
+            document.getElementById("open-door").onclick = () => {
+            sendCommand("open");
+            };
+
+            document.getElementById("close-door").onclick = () => {
+            sendCommand("close");
+            };
+
+            document.getElementById("manual-input").addEventListener("change", (e) => {
+            const value = parseInt(e.target.value);
+
+            if (!isNaN(value)) {
+                sendCommand("set", value);
+            }
+        });
+
     </script>
+</body>
 </html>
