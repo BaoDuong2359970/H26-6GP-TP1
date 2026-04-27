@@ -286,6 +286,7 @@ class CapteursManager:
         temperature, humidite = self.lire_temperature_humidite()
         luminosite = self.lire_luminosite()
         distance = self.lire_distance()
+        status_moteur = "En arrêt"
 
         if temperature is not None:
             self.app.temperature_var.set(f"{temperature} °C")
@@ -305,7 +306,12 @@ class CapteursManager:
 
             self.app.ouverture_actuelle = cible
             self.app.ouverture_auto_var.set(f"{self.app.ouverture_actuelle:.1f} %")
-            self.control_once(target_distance, distance)
+            status = self.control_once(target_distance, distance)
+
+            if status == "OPEN" or status == "CLOSE":
+                status_moteur = "En marche"
+            else:
+                status_moteur = "En arrêt"
 
         self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
         self.app.dessiner_ouverture(self.app.ouverture_actuelle)
@@ -316,7 +322,7 @@ class CapteursManager:
             "id_message": str(uuid.uuid4()),
             "id_objet": "objectId123",
             "date": int(time.time()),
-            "status": "envoye",
+            "status": status_moteur,
             "temperature": temperature,
             "luminosite": luminosite,
             "ouverture_auto": self.app.ouverture_actuelle,
@@ -342,7 +348,7 @@ class CapteursManager:
             luminosite,
             self.app.ouverture_actuelle,
             self.app.mode.value,
-            "envoye",
+            status_moteur,
             int(time.time())
         ))
 
