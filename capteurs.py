@@ -443,6 +443,9 @@ class CapteursManager:
             time.sleep(10)
 
     def gerer_alerte_porte(self, ouverture_cible, ouverture_reelle, action):
+        message = ""
+        anomalie = False
+ 
         ecart = abs(ouverture_cible - ouverture_reelle)
 
         if ecart <= self.ALERT_TOLERANCE_PERCENT:
