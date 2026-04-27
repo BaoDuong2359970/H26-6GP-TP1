@@ -241,6 +241,24 @@ fetch("/api/data")
       table.innerHTML += row;
     });
   });
+
+  function sendCommand(command, value = null) {
+  fetch("/api/command", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ command, value })
+  });
+}
+
+document.getElementById("open-door").onclick = () => {
+  sendCommand("open");
+};
+
+document.getElementById("close-door").onclick = () => {
+  sendCommand("close");
+};
 </script>
 
 </body>

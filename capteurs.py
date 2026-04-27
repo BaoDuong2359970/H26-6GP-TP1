@@ -77,6 +77,27 @@ class CapteursManager:
 
         time.sleep(1)
 
+    def on_message_received(message):
+        print("Commande reçue:", message.data)
+
+        try:
+            data = json.loads(message.data.decode())
+
+            if data["command"] == "open":
+                self.move_to_manual_percent(100)
+
+            elif data["command"] == "close":
+                self.move_to_manual_percent(0)
+
+            elif data["command"] == "set":
+                value = data.get("value", 0)
+                self.move_to_manual_percent(value)
+
+        except Exception as e:
+            print("Erreur commande:", e)
+
+    self.client.on_message_received = on_message_received
+
     def creer_donnees(self):
         frame = tk.Frame(self.app.left_frame, bg="white")
         frame.pack(pady=20)
@@ -322,7 +343,7 @@ class CapteursManager:
             "ouverture_auto": self.app.ouverture_actuelle,
             "mode": self.app.mode.value,
             "ouverture_reelle": ouverture_reelle,
-            "distance": self.distance,
+            "distance": distance,
             "erreur": "non",
             "avertissement": ""
         }
