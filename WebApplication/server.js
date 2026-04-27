@@ -56,6 +56,7 @@ const container = database.container("container1");
 
 app.use(express.static('public'));
 
+
 async function getCosmosData() {
   const querySpec = {
     query: "SELECT * FROM c ORDER BY c.Body.date DESC"
@@ -64,6 +65,10 @@ async function getCosmosData() {
   const { resources } = await container.items.query(querySpec).fetchAll();
   return resources;
 }
+
+app.get('/simulation', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'simulation.html'));
+});
 
 // API
 app.get("/api/data", async (req, res) => {
