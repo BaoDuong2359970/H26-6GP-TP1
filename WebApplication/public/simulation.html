@@ -123,14 +123,11 @@
                             Date
                         </th>
                         <th class="th">
-                            Direction
-                        </th> 
+                            Mode
+                        </th>
                         <th class="th">
                             Distance
-                        </th> 
-                        <th class="th">
-                            Vitesse
-                        </th> 
+                        </th>
                         <th class="th-ouverture">
                             Ouverture
                         </th>
@@ -192,7 +189,6 @@
             const row = `
                 <tr>
                     <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
-                    <td>${item.Body.status}</td>
                     <td>${item.Body.mode}</td>
                     <td>${item.Body.distance ?? "--"} cm</td>
                     <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
