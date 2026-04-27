@@ -22,7 +22,7 @@
         <div class="bottom-row">
             <div class="door-visual">
                 <h3>Ouverture <br>
-                    automatique</h3>
+                    <span id="mode-title">--</span></h3>
                 <div class="door-container">
                     <svg width="300" height="400" viewBox="0 0 150 215">
                         <!-- Door outline -->
@@ -181,6 +181,7 @@
             document.getElementById("luminosite").textContent = (latest.Body.luminosite ?? "--") + " (80-100)";
             document.getElementById("distance").textContent = (latest.Body.distance ?? "--") + " cm";
             document.getElementById("mode").textContent = latest.Body.mode ?? "--";
+            document.getElementById("mode-title").textContent = latest.Body.mode ?? "--";
 
             updateDoorGraphic(currentOpening);
             
