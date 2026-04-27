@@ -30,36 +30,28 @@
                         <h4>
                             Température
                         </h4>
-                        <p>
-                            30 °C
-                        </p>
+                        <p id="temperature">-- °C</p>
                     </div>
                     
                     <div class="info-section">
                         <h4>
                             Luminosité
                         </h4>
-                        <p>
-                            80 (0-100)
-                        </p>
+                        <p id="luminosite">--</p>
                     </div>
                 
                     <div class="info-section">
                         <h4>
                             Ouverture automatique
                         </h4>
-                        <p>
-                            37%
-                        </p>
+                        <p id="ouverture">--%</p>
                     </div>
 
                     <div class="info-section">
                         <h4>
                             Mode de contrôle
                         </h4>
-                        <p>
-                            Automique
-                        </p>
+                        <p id="mode">--</p>
                     </div>
                 </div>
                 
@@ -184,96 +176,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="table-body"> 
-                    <tr class="table-row"> 
-                        <td class="td">
-                            2026-04-20
-                        </td> 
-                        <td class="td"> 
-                            <span class="badge badge-open">
-                                En marche
-                            </span> 
-                        </td> 
-                        <td class="td">
-                            Gauche
-                        </td> 
-                        <td class="td">
-                            10 cm
-                        </td> 
-                        <td class="td">
-                            45 tours/min
-                        </td> 
-                        <td class="td-ouverture">
-                            37%
-                        </td> 
-                    </tr> 
-                    <tr class="table-row"> 
-                        <td class="td">
-                            2026-04-19
-                        </td> 
-                        <td class="td"> 
-                            <span class="badge badge-closed">
-                                En arrêt
-                            </span> 
-                        </td> 
-                        <td class="td">
-                            Droit
-                        </td> 
-                        <td class="td">
-                            30 cm
-                        </td> 
-                        <td class="td">
-                            30 tours/min
-                        </td> 
-                        <td class="td-ouverture">
-                            0%
-                        </td> 
-                    </tr> 
-                    <tr class="table-row"> 
-                        <td class="td">
-                            2026-04-18
-                        </td> 
-                        <td class="td"> 
-                            <span class="badge badge-open">
-                                En marche
-                            </span> 
-                        </td> 
-                        <td class="td">
-                            Gauche
-                        </td> 
-                        <td class="td">
-                            5 cm
-                        </td> 
-                        <td class="td">
-                            60 tours/min
-                        </td> 
-                        <td class="td-ouverture">
-                            60%
-                        </td> 
-                    </tr> 
-                    <tr class="table-row"> 
-                        <td class="td">
-                            2026-04-17
-                        </td> 
-                        <td class="td"> 
-                            <span class="badge badge-closed">
-                                En arrêt
-                            </span> 
-                        </td>
-                        <td class="td">
-                            Droite
-                        </td> 
-                        <td class="td">
-                            20 cm
-                        </td> 
-                        <td class="td">
-                            50 tours/min
-                        </td> 
-                        <td class="td-ouverture">
-                            0%
-                        </td> 
-                    </tr> 
-                </tbody> 
+                <tbody id="historique-body"></tbody>
             </table>
         </div>
     </div>
@@ -302,13 +205,43 @@
             </p>
         </div>
     </div>
-</html>
 
-
-<script>
+    <script>
 function scrollToSection(id) {
     document.getElementById(id).scrollIntoView({
         behavior: 'smooth'
     });
 }
+
+fetch("/api/data")
+  .then(res => res.json())
+  .then(data => {
+    if (!data.length) return;
+
+    const latest = data[0];
+
+    // TOP INFO
+    document.getElementById("temperature").textContent = (latest.Body.temperature ?? "--") + " °C";
+    document.getElementById("luminosite").textContent = latest.Body.luminosite ?? "--";
+    document.getElementById("ouverture").textContent = Math.round(latest.Body.ouverture_auto ?? 0) + "%";
+    document.getElementById("mode").textContent = latest.Body.mode ?? "--";
+    // TABLE
+    const table = document.getElementById("historique-body");
+
+    data.slice(0, 10).forEach(item => {
+      const row = `
+        <tr>
+            <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
+            <td>${item.Body.status}</td>
+            <td>${item.Body.mode}</td>
+            <td>${item.Body.distance ?? "--"} cm</td>
+            <td>${Math.round(item.Body.ouverture_auto ?? 0)}%</td>
+        </tr>
+      `;
+      table.innerHTML += row;
+    });
+  });
 </script>
+
+</body>
+</html>
