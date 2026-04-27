@@ -52,10 +52,10 @@ class CapteursManager:
         ]
 
         # Alerts
-        self.ALERT_TOLERANCE_PERCENT = 5
-        self.ANOMALY_DELAY_SECONDS = 2
-        self.deviation_since = None
-        self.last_action = "STOP"
+        self.ALERT_TOLERANCE_PERCENT = 5 # max difference allowed
+        self.ANOMALY_DELAY_SECONDS = 2 # time the opening can have a difference
+        self.deviation_since = None # time when deviation started --> to calculate anomaly time
+        self.last_action = "STOP" # last motor action
 
         # Réglages moteur
         self.STEP_DELAY = 0.002
@@ -371,13 +371,7 @@ class CapteursManager:
             "ouverture_auto": self.app.ouverture_actuelle,
             "mode": self.app.mode.value,
             "ouverture_reelle": ouverture_reelle,
-<<<<<<< HEAD
             "distance": distance
-=======
-            "distance": distance,
-            "erreur": "non",
-            "avertissement": ""
->>>>>>> 24af00279b4d6a5133830f26c7005cfdb6824056
         }
 
         msg = Message(json.dumps(data))
