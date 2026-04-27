@@ -65,21 +65,19 @@
                                 </h4>
                                 <p id="luminosite">--</p>
                             </div>
+
+                            <div class="info-section">
+                                <h4>
+                                    Distance
+                                </h4>
+                                <p id="distance">-- cm</p>
+                            </div>
                         
                             <div class="info-section">
                                 <h4>
                                     Ouverture automatique
                                 </h4>
                                 <p id="ouverture">--%</p>
-                            </div>
-
-                            <div class="info-section">
-                                <h4>
-                                    Distance
-                                </h4>
-                                <p>
-                                    22 cm
-                                </p>
                             </div>
 
                             <div class="info-section">
@@ -116,7 +114,7 @@
                 Historique des données
             </h3>
 
-            <table class="table"> 
+            <table class="table">
                 <thead class="table-head"> 
                     <tr> 
                         <th class="th">
@@ -128,7 +126,7 @@
                         <th class="th">
                             Distance
                         </th>
-                        <th class="th-ouverture">
+                        <th class="th">
                             Ouverture
                         </th>
                     </tr>
@@ -182,8 +180,11 @@
             document.getElementById("luminosite").textContent = latest.Body.luminosite ?? "--";
             document.getElementById("ouverture").textContent = Math.round(latest.Body.ouverture_auto ?? 0) + "%";
             document.getElementById("mode").textContent = latest.Body.mode ?? "--";
+
             // TABLE
             const table = document.getElementById("historique-body");
+
+            table.innerHTML = ""
 
             data.slice(0, 10).forEach(item => {
             const row = `
@@ -197,5 +198,8 @@
             table.innerHTML += row;
             });
         });
+
+        loadData(); // loads immediately
+        setInterval(loadData, 30000); // reloads every 2 seconds
     </script>
 </html>

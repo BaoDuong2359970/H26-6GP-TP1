@@ -253,8 +253,12 @@ h4 {
 }
 
 .table {
-    width: 80%;
+    width: 70%;
     border-collapse: collapse;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #ccc;
 }
 
 /* Header */
