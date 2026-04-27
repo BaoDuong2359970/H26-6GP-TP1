@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { CosmosClient } from "@azure/cosmos";
 import { Client } from 'azure-iothub';
+import mysql from 'mysql2/promise';
 
 dotenv.config();
 
@@ -18,6 +19,13 @@ const serviceClient = Client.fromConnectionString(connectionString);
 // needed for __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const db = await mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'iotdb'
+});
 
 app.post("/api/command", async (req, res) => {
   const { command, value } = req.body;
@@ -46,22 +54,50 @@ const client = new CosmosClient({
 const database = client.database("iotdb");
 const container = database.container("container1");
 
-// serve static files
 app.use(express.static('public'));
+
+async function getCosmosData() {
+  const querySpec = {
+    query: "SELECT * FROM c ORDER BY c.Body.date DESC"
+  };
+
+  const { resources } = await container.items.query(querySpec).fetchAll();
+  return resources;
+}
 
 // API
 app.get("/api/data", async (req, res) => {
   try {
-    const { resources } = await container.items
-      .query("SELECT * FROM c ORDER BY c.Body.date DESC")
-      .fetchAll();
+    const cloudData = await getCosmosData();
+    res.json(cloudData);
 
-    res.json(resources);
   } catch (err) {
-    console.error(err);
-    res.status(500).send("error");
+    console.log("Cloud is down, using local DB");
+
+    try {
+      const [rows] = await db.execute(`
+        SELECT * FROM data ORDER BY id DESC LIMIT 50
+      `);
+
+      const formatted = rows.map(row => ({
+        Body: {
+          temperature: row.temperature,
+          luminosite: row.luminosite,
+          ouverture_auto: row.ouverture,
+          distance: row.distance,
+          mode: row.mode,
+          date: Math.floor(Date.now() / 1000)
+        }
+      }));
+
+      res.json(formatted);
+
+    } catch (e) {
+      res.status(500).json({ error: "No data available" });
+    }
   }
 });
+     
 
 const PORT = process.env.PORT || 3000;
 

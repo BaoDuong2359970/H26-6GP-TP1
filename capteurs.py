@@ -84,6 +84,9 @@ class CapteursManager:
 
         time.sleep(1)
 
+        import threading
+        threading.Thread(target=self.sync_pending, daemon=True).start()
+
     def on_message_received(self, message):
         print("Commande reçue:", message.data)
 
@@ -368,7 +371,7 @@ class CapteursManager:
             "id_message": str(uuid.uuid4()),
             "id_objet": "objectId123",
             "date": int(time.time()),
-            "status": "envoye",
+            "status": None,
             "temperature": temperature,
             "luminosite": luminosite,
             "ouverture_auto": self.app.ouverture_actuelle,
@@ -383,9 +386,13 @@ class CapteursManager:
         msg.content_encoding = "utf-8"
         msg.content_type = "application/json"
 
-        self.client.send_message(msg)
-        print("envoyé :", data)
-
+        try:
+            self.client.send_message(msg)
+            data["status"] = "synced"
+            print("envoyé cloud :", data)
+        except Exception as e:
+            print("Cloud failed:", e)
+            data["status"] = "pending"
 
         self.cursor.execute("""
             INSERT INTO data (temperature, luminosite, ouverture, distance, mode, status)
@@ -396,11 +403,44 @@ class CapteursManager:
         self.app.ouverture_actuelle,
         distance if distance is not None else 0,
         self.app.mode.value,
-        "envoye"
+        data["status"]
     ))
 
         self.db.commit()
 
+
+    def sync_pending(self):
+        while True:
+            try:
+                self.cursor.execute("""
+                    SELECT id, temperature, luminosite, ouverture, distance, mode
+                    FROM data WHERE status='pending'
+                """)
+                rows = self.cursor.fetchall()
+
+                for row in rows:
+                    payload = {
+                        "temperature": row[1],
+                        "luminosite": row[2],
+                        "ouverture": row[3],
+                        "distance": row[4],
+                        "mode": row[5]
+                    }
+
+                    # try resend
+                    self.client.send_message(json.dumps(payload))
+
+                    # mark as synced if success
+                    self.cursor.execute(
+                        "UPDATE data SET status='synced' WHERE id=%s",
+                        (row[0],)
+                    )
+                    self.db.commit()
+
+            except Exception as e:
+                print("Sync error:", e)
+
+            time.sleep(10)
 
     def gerer_alerte_porte(self, ouverture_cible, ouverture_reelle, action):
         ecart = abs(ouverture_cible - ouverture_reelle)
