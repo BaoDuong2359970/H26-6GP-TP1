@@ -19,6 +19,7 @@ class CapteursManager:
         self.conn_str = "HostName=internetobjethub.azure-devices.net;DeviceId=collecteur_temp;SharedAccessKey=qIL8KPAdSPBGenuV15iSpZX62T4K1zHzvGGFy9/SGmY="
         self.client = IoTHubDeviceClient.create_from_connection_string(self.conn_str)
         self.client.connect()
+        self.client.on_message_received = self.on_message_received
 
         #Connection local database 
         self.db = mysql.connector.connect(
@@ -77,7 +78,7 @@ class CapteursManager:
 
         time.sleep(1)
 
-    def on_message_received(message):
+    def on_message_received(self, message):
         print("Commande reçue:", message.data)
 
         try:
@@ -95,8 +96,6 @@ class CapteursManager:
 
         except Exception as e:
             print("Erreur commande:", e)
-
-    self.client.on_message_received = on_message_received
 
     def creer_donnees(self):
         frame = tk.Frame(self.app.left_frame, bg="white")
