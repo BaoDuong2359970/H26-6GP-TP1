@@ -335,7 +335,7 @@ class CapteursManager:
 
 
         self.cursor.execute("""
-            IINSERT INTO data (temperature, luminosite, ouverture, distance, mode, status)
+            INSERT INTO data (temperature, luminosite, ouverture, distance, mode, status)
             VALUES (%s, %s, %s, %s, %s, %s)
             """, (
         temperature,
