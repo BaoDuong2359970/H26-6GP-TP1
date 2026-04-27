@@ -358,20 +358,25 @@ class CapteursManager:
                 action
             )
 
+
         self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
         self.app.dessiner_ouverture(self.app.ouverture_actuelle)
+
+        self.app.parent.after(300, self.update_donnees)
 
         data = {
             "id_message": str(uuid.uuid4()),
             "id_objet": "objectId123",
             "date": int(time.time()),
-            "status": status_moteur,
+            "status": "envoye",
             "temperature": temperature,
             "luminosite": luminosite,
             "ouverture_auto": self.app.ouverture_actuelle,
             "mode": self.app.mode.value,
             "ouverture_reelle": ouverture_reelle,
-            "distance": distance
+            "distance": distance,
+            "erreur": "non",
+            "avertissement": ""
         }
 
         msg = Message(json.dumps(data))
@@ -381,20 +386,21 @@ class CapteursManager:
         self.client.send_message(msg)
         print("envoyé :", data)
 
+
         self.cursor.execute("""
-        INSERT INTO data (temperature, luminosite, ouverture, mode, status)
-        VALUES (%s, %s, %s, %s, %s, %s)
-        """, (
-            temperature,
-            luminosite,
-            self.app.ouverture_actuelle,
-            distance if distance is not None else 0,
-            self.app.mode.value,
-            "envoye"
-        ))
+            INSERT INTO data (temperature, luminosite, ouverture, distance, mode, status)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            """, (
+        temperature,
+        luminosite,
+        self.app.ouverture_actuelle,
+        distance if distance is not None else 0,
+        self.app.mode.value,
+        "envoye"
+    ))
 
         self.db.commit()
-        self.app.parent.after(300, self.update_donnees)
+
 
     def gerer_alerte_porte(self, ouverture_cible, ouverture_reelle, action):
         ecart = abs(ouverture_cible - ouverture_reelle)
