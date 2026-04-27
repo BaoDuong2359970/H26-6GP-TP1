@@ -335,16 +335,15 @@ class CapteursManager:
 
 
         self.cursor.execute("""
-            INSERT INTO data (temperature, luminosite, ouverture, distance, mode, status, date)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            IINSERT INTO data (temperature, luminosite, ouverture, distance, mode, status)
+            VALUES (%s, %s, %s, %s, %s, %s)
             """, (
         temperature,
         luminosite,
         self.app.ouverture_actuelle,
         distance if distance is not None else 0,
         self.app.mode.value,
-        "envoye",
-        int(time.time())
+        "envoye"
     ))
 
         self.db.commit()
