@@ -148,16 +148,44 @@ class Application:
             )
 
     def ajouter_alerte(self):
-        alert_message = "Alerte: " + self.get_alert()
-        self.alerte_var.set(alert_message)
-        
-        alerte_label = tk.Label(
+        self.alerte_var.set("")
+
+        self.alerte_label = tk.Label(
             self.bottom_frame,
             textvariable=self.alerte_var,
             bg="white",
-            font=("Arial", 12)
+            fg="red",
+            font=("Arial", 12, "bold")
         )
-        alerte_label.pack(pady=10, anchor='center')
+        self.alerte_label.pack(pady=10, anchor="center")
 
-    def get_alert(self):
-        return "Default alert message"
+        self.alerte_clignote = False
+
+    def afficher_alerte(self, message, clignote=False):
+        self.alerte_var.set("Alerte: " + message)
+
+        if clignote:
+            if not self.alerte_clignote:
+                self.alerte_clignote = True
+                self.clignoter_alerte()
+        else:
+            self.alerte_clignote = False
+            self.alerte_label.config(bg="white", fg="red")
+
+    def cacher_alerte(self):
+        self.alerte_var.set("")
+        self.alerte_clignote = False
+        self.alerte_label.config(bg="white", fg="red")
+
+
+    def clignoter_alerte(self):
+        if not self.alerte_clignote or self.alerte_var.get() == "":
+            self.alerte_label.config(bg="white", fg="red")
+            return
+
+        if self.alerte_label.cget("bg") == "red":
+            self.alerte_label.config(bg="white", fg="red")
+        else:
+            self.alerte_label.config(bg="red", fg="white")
+
+        self.parent.after(500, self.clignoter_alerte)

@@ -50,6 +50,12 @@ class CapteursManager:
             [1, 0, 0, 1]
         ]
 
+        # Alerts
+        self.ALERT_TOLERANCE_PERCENT = 5
+        self.ANOMALY_DELAY_SECONDS = 2
+        self.deviation_since = None
+        self.last_action = "STOP"
+
         # Réglages moteur
         self.STEP_DELAY = 0.002
         self.STEPS_PER_CYCLE = 40
@@ -248,6 +254,7 @@ class CapteursManager:
                 return
 
             action = self.control_once(target_distance, distance)
+            self.last_action = action
 
             self.app.distance_var.set(f"{distance} cm")
             self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
@@ -288,6 +295,9 @@ class CapteursManager:
         distance = self.lire_distance()
         status_moteur = "En arrêt"
 
+        # Alerts
+        action = self.last_action
+
         if temperature is not None:
             self.app.temperature_var.set(f"{temperature} °C")
         else:
@@ -306,17 +316,30 @@ class CapteursManager:
 
             self.app.ouverture_actuelle = cible
             self.app.ouverture_auto_var.set(f"{self.app.ouverture_actuelle:.1f} %")
-            status = self.control_once(target_distance, distance)
+            
+            action = self.control_once(target_distance, distance)
+            self.last_action = action
 
-            if status == "OPEN" or status == "CLOSE":
+            if action == "OPEN" or action == "CLOSE":
                 status_moteur = "En marche"
             else:
                 status_moteur = "En arrêt"
 
+            self.gerer_alerte_porte(
+                cible,
+                ouverture_reelle,
+                action
+            )
+        
+        if self.app.mode == Mode.MANUELLE:
+            self.gerer_alerte_porte(
+                self.app.ouverture_actuelle,
+                ouverture_reelle,
+                action
+            )
+
         self.app.ouverture_var.set(f"{self.app.ouverture_actuelle:.1f} %")
         self.app.dessiner_ouverture(self.app.ouverture_actuelle)
-
-        self.app.parent.after(300, self.update_donnees)
 
         data = {
             "id_message": str(uuid.uuid4()),
@@ -328,9 +351,7 @@ class CapteursManager:
             "ouverture_auto": self.app.ouverture_actuelle,
             "mode": self.app.mode.value,
             "ouverture_reelle": ouverture_reelle,
-            "distance": self.distance,
-            "erreur": "non",
-            "avertissement": ""
+            "distance": distance
         }
 
         msg = Message(json.dumps(data))
@@ -339,7 +360,6 @@ class CapteursManager:
 
         self.client.send_message(msg)
         print("envoyé :", data)
-
 
         self.cursor.execute("""
         INSERT INTO data (temperature, luminosite, ouverture, mode, status, date)
@@ -354,3 +374,32 @@ class CapteursManager:
         ))
 
         self.db.commit()
+        self.app.parent.after(300, self.update_donnees)
+
+    def gerer_alerte_porte(self, ouverture_cible, ouverture_reelle, action):
+        ecart = abs(ouverture_cible - ouverture_reelle)
+
+        if ecart <= self.ALERT_TOLERANCE_PERCENT:
+            self.deviation_since = None
+            self.app.cacher_alerte()
+            return "non", ""
+
+        if self.deviation_since is None:
+            self.deviation_since = time.time()
+
+        anomalie = (
+            action in ["OPEN", "CLOSE"]
+            and time.time() - self.deviation_since >= self.ANOMALY_DELAY_SECONDS
+        )
+
+        message = (
+            f"Écart entre l'ouverture calculée ({ouverture_cible:.1f} %) "
+            f"et l'ouverture réelle ({ouverture_reelle:.1f} %)."
+        )
+
+        if anomalie:
+            message += f" La porte est ouverte plus que nécessaire, elle doit être ouverte à {ouverture_cible:.1f}%"
+
+        self.app.afficher_alerte(message, clignote=anomalie)
+
+        return "oui" if anomalie else "non", message
