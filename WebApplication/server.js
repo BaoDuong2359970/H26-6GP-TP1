@@ -9,6 +9,9 @@ dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const connectionString = process.env.IOTHUB_CONNECTION_STRING;
 const serviceClient = Client.fromConnectionString(connectionString);
 
