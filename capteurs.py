@@ -103,6 +103,15 @@ class CapteursManager:
                 value = data.get("value", 0)
                 self.app.parent.after(0, lambda: self.move_to_manual_percent(value))
 
+            elif data["command"] == "set_mode":
+                mode = data.get("value")
+                
+                if mode == "auto":
+                    self.app.parent.after(0, lambda: self.set_mode_auto())
+
+                elif mode == "manuel":
+                    self.app.parent.after(0, lambda: self.set_mode_manuel())
+
         except Exception as e:
             print("Erreur commande:", e)
 
@@ -467,3 +476,12 @@ class CapteursManager:
         self.app.afficher_alerte(message, clignote=anomalie)
 
         return "oui" if anomalie else "non", message
+
+    def set_mode_auto(self):
+        print("Switching to AUTO mode")
+        self.app.mode = Mode.AUTOMATIQUE
+
+
+    def set_mode_manuel(self):
+        print("Switching to MANUAL mode")
+        self.app.mode = Mode.MANUELLE

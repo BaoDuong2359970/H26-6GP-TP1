@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="styles/simstyles.css">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Quicksand" />
 </head>
+
 <body>
     <div class="top-nav">
         <button onclick="scrollToSection('simulation')">Simulation</button>
@@ -17,28 +19,43 @@
     <h1 id="simulation">
         Contrôle d'une porte d'aération d'une serre
     </h1>
-
+    <div class="container">
+        <button onclick="setMode('auto')">Mode Auto</button>
+        <button onclick="setMode('manuel')">Mode Manuel</button>
+    </div>
     <div class="container">
         <div class="bottom-row">
             <div class="door-visual">
                 <h3>Ouverture <br>
-                    <span id="mode-title">--</span></h3>
+                    <span id="mode-title">--</span>
+                </h3>
                 <div class="door-container">
                     <svg width="300" height="400" viewBox="0 0 150 215">
                         <!-- Door outline -->
-                        <rect x="30" y="20" width="90" height="188" fill="none" stroke="#1F331A" stroke-width="3" rx="7" ry="5"/>
-                        
+                        <rect x="30" y="20" width="90" height="188" fill="none" stroke="#1F331A" stroke-width="3" rx="7"
+                            ry="5" />
+
                         <!-- Bars (10 sections) -->
-                        <rect x="35" y="25" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-1"/>
-                        <rect x="35" y="43" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-2"/>
-                        <rect x="35" y="61" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-3"/>
-                        <rect x="35" y="79" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-4"/>
-                        <rect x="35" y="97" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-5"/>
-                        <rect x="35" y="115" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-6"/>
-                        <rect x="35" y="133" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-7"/>
-                        <rect x="35" y="151" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-8"/>
-                        <rect x="35" y="169" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-9"/>
-                        <rect x="35" y="187" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1" rx="2" ry="2" class="bar bar-10"/>
+                        <rect x="35" y="25" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-1" />
+                        <rect x="35" y="43" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-2" />
+                        <rect x="35" y="61" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-3" />
+                        <rect x="35" y="79" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-4" />
+                        <rect x="35" y="97" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-5" />
+                        <rect x="35" y="115" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-6" />
+                        <rect x="35" y="133" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-7" />
+                        <rect x="35" y="151" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-8" />
+                        <rect x="35" y="169" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-9" />
+                        <rect x="35" y="187" width="80" height="16" fill="#E3F4DE" stroke="#43613B" stroke-width="1"
+                            rx="2" ry="2" class="bar bar-10" />
                     </svg>
                 </div>
                 <div class="opening-percentage" id="ouverture-graphic">-- %</div>
@@ -50,7 +67,7 @@
                         <h3>
                             Informations sur les senseurs
                         </h3>
-                    
+
                         <div class="info-box">
                             <div class="info-section">
                                 <h4>
@@ -58,7 +75,7 @@
                                 </h4>
                                 <p id="temperature">-- °C</p>
                             </div>
-                            
+
                             <div class="info-section">
                                 <h4>
                                     Luminosité
@@ -72,7 +89,7 @@
                                 </h4>
                                 <p id="distance">-- cm</p>
                             </div>
-                        
+
                             <div class="info-section">
                                 <h4>
                                     Ouverture
@@ -100,7 +117,7 @@
                             </div>
                             <div id="error-message" class="error"></div>
                             <div class="manual-buttons">
-                                <button id="open-door" class="btn-open">Ouvrir la porte</button>
+                                <button id="open-door" class="btn-open">OUVRIR LA PORTE</button>
                                 <button id="close-door" class="btn-close">Fermer la porte</button>
                             </div>
                         </div>
@@ -115,8 +132,8 @@
             </h3>
 
             <table class="table">
-                <thead class="table-head"> 
-                    <tr> 
+                <thead class="table-head">
+                    <tr>
                         <th class="th">
                             Date
                         </th>
@@ -131,7 +148,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody id="historique-body"></tbody> 
+                <tbody id="historique-body"></tbody>
             </table>
         </div>
     </div>
@@ -162,6 +179,8 @@
     </div>
 
     <script>
+        let currentMode = "auto";
+
         function scrollToSection(id) {
             document.getElementById(id).scrollIntoView({
                 behavior: 'smooth'
@@ -169,27 +188,28 @@
         }
 
         fetch("/api/data")
-        .then(res => res.json())
-        .then(data => {
-            if (!data.length) return;
+            .then(res => res.json())
+            .then(data => {
+                if (!data.length) return;
 
-            const latest = data[0];
-            const currentOpening = latest.Body.ouverture_reelle ?? 0;
+                const latest = data[0];
+                currentMode = latest.Body.mode;
+                const currentOpening = latest.Body.ouverture_reelle ?? 0;
 
-            // TOP INFO
-            document.getElementById("temperature").textContent = (latest.Body.temperature ?? "--") + " °C";
-            document.getElementById("luminosite").textContent = (latest.Body.luminosite ?? "--") + " (80-100)";
-            document.getElementById("distance").textContent = (latest.Body.distance ?? "--") + " cm";
-            document.getElementById("mode").textContent = latest.Body.mode ?? "--";
-            document.getElementById("mode-title").textContent = latest.Body.mode ?? "--";
+                // TOP INFO
+                document.getElementById("temperature").textContent = (latest.Body.temperature ?? "--") + " °C";
+                document.getElementById("luminosite").textContent = (latest.Body.luminosite ?? "--") + " (80-100)";
+                document.getElementById("distance").textContent = (latest.Body.distance ?? "--") + " cm";
+                document.getElementById("mode").textContent = latest.Body.mode ?? "--";
+                document.getElementById("mode-title").textContent = latest.Body.mode ?? "--";
 
-            updateDoorGraphic(currentOpening);
-            
-            // TABLE
-            const table = document.getElementById("historique-body");
+                updateDoorGraphic(currentOpening);
 
-            data.slice(0, 10).forEach(item => {
-                const row = `
+                // TABLE
+                const table = document.getElementById("historique-body");
+
+                data.slice(0, 10).forEach(item => {
+                    const row = `
                     <tr>
                         <td>${new Date(item.Body.date * 1000).toLocaleString()}</td>
                         <td>${item.Body.mode}</td>
@@ -197,54 +217,73 @@
                         <td>${Math.round(item.Body.ouverture_reelle ?? 0)}%</td>
                     </tr>
                 `;
-                table.innerHTML += row;
+                    table.innerHTML += row;
+                });
             });
-        });
 
         function sendCommand(command, value = null) {
             fetch("/api/command", {
                 method: "POST",
                 headers: {
-                "Content-Type": "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ command, value })
             });
+        }
+
+        document.getElementById("open-door").onclick = () => {
+            if (currentMode === "auto") {
+                document.getElementById("error-message").textContent =
+                    "Passe en mode manuel pour contrôler.";
+                return;
             }
 
-            document.getElementById("open-door").onclick = () => {
-                sendCommand("open");
-            };
+            sendCommand("open");
+        };
 
-            document.getElementById("close-door").onclick = () => {
-                document.getElementById("manual-input").value = 0;
-                document.getElementById("error-message").textContent = "";
+        document.getElementById("close-door").onclick = () => {
+            if (currentMode === "auto") {
+                document.getElementById("error-message").textContent =
+                    "Passe en mode manuel pour contrôler.";
+                return;
+            }
 
-                sendCommand("close");
-            };
+            document.getElementById("manual-input").value = 0;
+            document.getElementById("error-message").textContent = "";
 
-            document.getElementById("manual-input").addEventListener("change", (e) => {
-                const value = parseInt(e.target.value);
-                const errorMessage = document.getElementById("error-message");
+            sendCommand("close");
+        };
 
-                if (isNaN(value)) {
-                    errorMessage.textContent = "";
-                    return;
-                }
+        document.getElementById("manual-input").addEventListener("change", (e) => {
 
-                if (value > 100) {
-                    errorMessage.textContent = "Le pourcentage ne peut pas dépasser 100%.";
-                    return;
-                }
+            if (currentMode === "auto") {
+                document.getElementById("error-message").textContent =
+                    "Passe en mode manuel pour contrôler.";
+                return;
+            }
 
-                if (value < 0) {
-                    errorMessage.textContent = "Le pourcentage ne peut pas être inférieur à 0%.";
-                    return;
-                }
+            const value = parseInt(e.target.value);
+            const errorMessage = document.getElementById("error-message");
 
+            if (isNaN(value)) {
                 errorMessage.textContent = "";
-
-                sendCommand("set", value);
+                return;
             }
+
+            if (value > 100) {
+                errorMessage.textContent = "Le pourcentage ne peut pas dépasser 100%.";
+                return;
+            }
+
+            if (value < 0) {
+                errorMessage.textContent = "Le pourcentage ne peut pas être inférieur à 0%.";
+                return;
+            }
+
+            errorMessage.textContent = "";
+
+            sendCommand("set", value);
+        }
         );
 
         function updateDoorGraphic(opening) {
@@ -264,6 +303,21 @@
             document.getElementById("ouverture-graphic").textContent = percent + "%";
             document.getElementById("ouverture-info").textContent = percent + "%";
         }
+
+        function setMode(mode) {
+            fetch("/api/command", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ command: "set_mode", value: mode })
+            });
+            currentMode = mode;
+
+            document.getElementById("mode").textContent = mode;
+            document.getElementById("mode-title").textContent = mode;
+        }
     </script>
 </body>
+
 </html>

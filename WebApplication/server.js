@@ -70,6 +70,8 @@ app.get('/simulation', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'simulation.html'));
 });
 
+
+
 // API
 app.get("/api/data", async (req, res) => {
   try {
