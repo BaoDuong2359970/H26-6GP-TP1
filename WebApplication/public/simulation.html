@@ -56,27 +56,21 @@
                                 <h4>
                                     Température
                                 </h4>
-                                <p id="temperature-value">
-                                    -- °C
-                                </p>
+                                <p id="temperature">-- °C</p>
                             </div>
                             
                             <div class="info-section">
                                 <h4>
                                     Luminosité
                                 </h4>
-                                <p id="luminosite-value">
-                                    -- (0-100)
-                                </p>
+                                <p id="luminosite">--</p>
                             </div>
                         
                             <div class="info-section">
                                 <h4>
                                     Ouverture automatique
                                 </h4>
-                                <p>
-                                    37%
-                                </p>
+                                <p id="ouverture">--%</p>
                             </div>
 
                             <div class="info-section">
@@ -92,9 +86,7 @@
                                 <h4>
                                     Mode de contrôle
                                 </h4>
-                                <p>
-                                    Automique
-                                </p>
+                                <p id="mode">--</p>
                             </div>
                         </div>
                     </div>
@@ -144,7 +136,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="historique-body"></tbody> 
+                <tbody id="historique-body"></tbody> 
             </table>
         </div>
     </div>
@@ -175,6 +167,12 @@
     </div>
 
     <script>
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
         fetch("/api/data")
         .then(res => res.json())
         .then(data => {
@@ -203,5 +201,5 @@
             table.innerHTML += row;
             });
         });
-        </script>
+    </script>
 </html>
