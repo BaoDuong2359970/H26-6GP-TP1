@@ -412,11 +412,6 @@ class CapteursManager:
             and time.time() - self.deviation_since >= self.ANOMALY_DELAY_SECONDS
         )
 
-        message = (
-            f"Écart entre l'ouverture calculée ({ouverture_cible:.1f} %) "
-            f"et l'ouverture réelle ({ouverture_reelle:.1f} %)."
-        )
-
         if anomalie:
             message += f" La porte est ouverte plus que nécessaire, elle doit être ouverte à {ouverture_cible:.1f}%"
 
