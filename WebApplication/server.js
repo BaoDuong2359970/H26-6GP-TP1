@@ -3,14 +3,39 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { CosmosClient } from "@azure/cosmos";
+import { Client } from 'azure-iothub';
 
 dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const connectionString = process.env.IOTHUB_CONNECTION_STRING;
+const serviceClient = Client.fromConnectionString(connectionString);
+
 // needed for __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+app.post("/api/command", async (req, res) => {
+  const { command, value } = req.body;
+
+  const message = JSON.stringify({
+    command: command,
+    value: value
+  });
+
+  try {
+    await serviceClient.open();
+    await serviceClient.send("collecteur_temp", message);
+    res.send("Command sent");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error sending command");
+  }
+});
 
 // Cosmos
 const client = new CosmosClient({
